@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/style-resources": "^0.1.2",
     "cross-env": "^5.2.0",
-    "element-ui": "^2.4.11",
+    "element-ui": "^2.7.2",
+    "mdi": "^2.2.43",
     "nuxt": "^2.4.0",
     "pug": "^2.0.3"
   },

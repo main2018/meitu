@@ -1,9 +1,14 @@
 <template lang="pug">
 
   ul.tabs
-    li(v-for="tab, index in tabs" :style="[liStyle, currentIndex === index ? activeStyle: {}]" @click="currentIndex = index") {{tab}}
+    li(
+      v-for="tab, index in tabs"
+      :style="[liStyle, currentIndex === index ? activeStyle: {}, {marginRight: index === tabs.length - 1 ? 0 : `${gap}px`}]"
+      @click="currentIndex = index"
+      ) {{tab}}
 
-    li(:style="[liStyle, lineStyle]")
+    li(:data-prev="prevData")
+      .tab-line(:style="lineStyle") {{tabs[currentIndex]}}
 </template>
 
 <script>
@@ -13,12 +18,20 @@ export default {
     tabs: Array,
     color: {
       type: String,
-      default: 'red'
+      default: '#7e8c8d'
     },
     activeColor: {
       type: String,
-      default: 'blue'
-    }
+      default: '#fff'
+    },
+    borderColor: {
+      type: String,
+      default: 'red'
+    },
+    gap: {
+      type: Number,
+      default: 30,
+    },
   },
   data() {
     return {
@@ -27,17 +40,16 @@ export default {
   },
   computed: {
     liStyle() {
-      const len = this.tabs.length
       return {
-        width: len > 1 ? 100 / len + '%' : '200px',
         color: this.color,
       }
     },
     lineStyle() {
       const len = this.tabs.length
       return {
-        borderColor: this.activeColor,
-        left: len > 1 ? this.currentIndex * 100 / len + '%' : this.currentIndex * 200 + 'px'
+        marginLeft: this.currentIndex * this.gap + 'px',
+        borderColor: this.borderColor,
+        // left: len > 1 ? this.currentIndex * 100 / len + '%' : this.currentIndex * 200 + 'px'
       }
     },
     activeStyle() {
@@ -45,25 +57,26 @@ export default {
         color: this.activeColor
       }
     },
+    prevData() {
+      return this.tabs.slice(0, this.currentIndex).join("")
+    },
   },
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 ul {
-  overflow: hidden;
+  // overflow: hidden;
   position: relative;
   list-style: none;
   padding: 0;
   margin: 0 auto;
   min-width: 200px;
   // max-width: 1600px;
-  background: rgba(255, 255, 255, 0.2);
   font-size: 0;
 }
 li {
   display: inline-block;
   position: relative;
-  width: 12.5%;
   height: 100%;
   font: 1rem/3 trebuchet ms, verdana, century gothic, arial, sans-serif;
   text-transform: uppercase;
@@ -77,13 +90,24 @@ li {
 
 //   transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 // }
-li:last-child {
-  position: absolute;
-  z-index: -1;
-  left: 0%;
+li:last-child
+  position: absolute
+  margin 0
+  left: 0
   // background: rgba(255, 255, 255, 0);
   transition: background .35s ease-out, transform 0s .35s;
-  border-bottom 2px solid
   transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+  color: transparent
+  pointer-events none
+  &::before
+    content: attr(data-prev)
+    display inline-block
+  .tab-line
+    display inline-block
+    height 100%
+    box-sizing border-box
+    border-bottom 2px solid
+    transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+
 </style>

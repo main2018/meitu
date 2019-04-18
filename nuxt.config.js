@@ -31,7 +31,8 @@ export default {
   ** Global CSS
   */
   css: [
-    'element-ui/lib/theme-chalk/index.css'
+    'element-ui/lib/theme-chalk/index.css',
+    '~/assets/stylus/index.styl',
   ],
 
   /*
@@ -47,7 +48,12 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/style-resources',
   ],
+  styleResources: {
+    // less: './assets/**/*.less',
+    stylus: './assets/stylus/global/*.styl',
+  },
   /*
   ** Axios module configuration
   */
@@ -60,7 +66,7 @@ export default {
   */
   build: {
     transpile: [/^element-ui/],
-    
+
     /*
     ** You can extend webpack config here
     */

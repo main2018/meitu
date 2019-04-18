@@ -1,0 +1,48 @@
+.bg
+  min-height: 100vh
+  background-color: #eee
+
+.split
+  height: 10px
+  background-color: #ccc
+
+.background
+  background-position: center
+  background-size: cover
+  background-repeat: no-repeat
+
+// text
+.text-color-l
+  color: $font-color-l!important
+
+$img-ratio = 4 / 10
+
+.background-ratio
+  padding-top: (100% * $img-ratio)!important
+
+.avatar
+  display: inline-block
+  background-position: center
+  background-repeat: no-repeat
+  background-size: cover
+  width: 4rem
+  height: 4rem
+  border-radius: 50%
+  flex-grow: 0
+  flex-shrink: 0
+  // border 2px solid $color-white
+.avatar-small
+  @extend .avatar
+  width: 3rem
+  height: 3rem
+.avatar-small-s
+  @extend .avatar
+  width: 2rem
+  height: 2rem
+.avatar-rect
+  @extend .avatar
+  border-radius: 5px
+  &-large
+    @extend .avatar-rect
+    width: 6rem
+    height: 6rem
