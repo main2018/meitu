@@ -1,4 +1,5 @@
 import pkg from './package'
+import { API_URL, isProduction } from './config'
 
 export default {
   mode: 'universal',
@@ -48,8 +49,20 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     '@nuxtjs/style-resources',
   ],
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api': {
+      target: API_URL,
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    },
+  },
   styleResources: {
     // less: './assets/**/*.less',
     stylus: './assets/stylus/global/*.styl',

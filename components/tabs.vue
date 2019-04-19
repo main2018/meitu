@@ -4,7 +4,7 @@
     li(
       v-for="tab, index in tabs"
       :style="[liStyle, currentIndex === index ? activeStyle: {}, {marginRight: index === tabs.length - 1 ? 0 : `${gap}px`}]"
-      @click="currentIndex = index"
+      @click="currentIndex = index; $emit('input', index); $emit('change', index)"
       ) {{tab}}
 
     li(:data-prev="prevData")
@@ -15,6 +15,10 @@
 
 export default {
   props: {
+    value: {
+      type: Number,
+      default: 0
+    },
     tabs: Array,
     color: {
       type: String,
@@ -35,7 +39,7 @@ export default {
   },
   data() {
     return {
-      currentIndex: 0,
+      currentIndex: this.value,
     }
   },
   computed: {

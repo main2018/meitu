@@ -3,17 +3,13 @@
     .nav-container
       nav.nav
         img.nav-logo(src="http://meitu.awoo.co/Corjqd5PHX.png")
-        tabs(:tabs="['摄影', '设计', '文创', '全案服务', '关于我们']")
+        tabs(:tabs="navs" @change="tabsChange" v-model="currentIndex")
         .nav-search
           input(type="text" v-model="keyword")
           .nav-search-bar
             span.mdi.mdi-magnify.mdi-16px
             span(v-show = '!keyword') 搜索
-    <el-carousel trigger="click" height="40vw">
-      <el-carousel-item v-for="item, index in images" :key="index">
-        .background.background-ratio(:style="{backgroundImage: `url(${item.src})`}")
-      </el-carousel-item>
-    </el-carousel>
+    <nuxt-child v-bind="{categorys, routers}"/>
 
 </template>
 
@@ -29,13 +25,28 @@ export default {
   data() {
     return {
       keyword: '',
-      images: [
-        {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '1'},
-        {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '2'},
-        {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '2'},
-      ],
+      currentIndex: this.$store.state.currentIndex || 0,
     }
   },
+  asyncData() {
+    console.log('async')
+  },
+  created() {
+  },
+  computed: {
+    categorys() { return this.$store.state.categorys },
+    navs() {
+      return this.categorys.map(item => item.name).filter(item => !!item)
+    },
+    routers() { return this.categorys.filter(item => !!item.name).map(item => item.route) },
+  },
+  methods: {
+    tabsChange(index) {
+      // const arr = ['', '', '', '', '/aboutUs']
+
+      this.$router.push(this.routers[index])
+    }
+  }
 }
 </script>
 
@@ -84,19 +95,4 @@ export default {
   .nav
     width: 1000px;
 
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 150px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-}
 </style>
