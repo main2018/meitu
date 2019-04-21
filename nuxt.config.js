@@ -19,7 +19,8 @@ export default {
       { rel: 'stylesheet', href: '//vjs.zencdn.net/7.3.0/video-js.min.css' },
     ],
     script: [
-      { src: '//vjs.zencdn.net/7.3.0/video.min.js' }
+      // { src: '//vjs.zencdn.net/7.3.0/video.min.js' }
+      <script src="//vjs.zencdn.net/7.3.0/lang/zh-CN.js"></script>
     ],
   },
 
@@ -40,7 +41,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    { src: '@/plugins/vue-video-player.js', ssr: false },
   ],
 
   /*

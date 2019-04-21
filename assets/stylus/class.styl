@@ -46,3 +46,21 @@ $img-ratio = 4 / 10
     @extend .avatar-rect
     width: 6rem
     height: 6rem
+
+// button
+.button
+  padding 0 20px
+  display inline-block
+  line-height 2
+  &.is-plain
+    border 1px solid
+  &.round
+    border-radius 20px
+
+  &.is-secondary
+    background-color color=$color-secondary
+    color #fff
+    &.is-plain
+      background-color transparent
+      color color
+

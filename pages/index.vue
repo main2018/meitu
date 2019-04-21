@@ -2,7 +2,7 @@
   .container
     .nav-container
       nav.nav
-        img.nav-logo(src="http://meitu.awoo.co/Corjqd5PHX.png")
+        img.nav-logo(src="http://meitu.awoo.co/Corjqd5PHX.png" @click="$router.push('/')")
         tabs(:tabs="navs" @change="tabsChange" v-model="currentIndex")
         .nav-search
           input(type="text" v-model="keyword")

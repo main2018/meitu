@@ -1,6 +1,6 @@
 <template lang="pug">
   .home
-    <el-carousel :autoplay="false" trigger="click" height="40vw">
+    <el-carousel :autoplay="true" :interval="3000" trigger="click" height="40vw">
       <el-carousel-item v-for="item, index in images" :key="index">
         .carousel-item-container
           .background(:style="{backgroundImage: `url(${item.src})`}")
@@ -10,6 +10,35 @@
               .carousel-item-info-subtitle 2019年4月27日在博鳌亚洲论坛隆重举行
       </el-carousel-item>
     </el-carousel>
+    .home-main
+      .home-main-header
+        .button.round.is-secondary 提供一站式影像视觉解决方案
+        |IMAGE VISION & BRAND SERVICE
+      .home-main-content
+        .home-main-content-header
+          el-carousel.home-main-content-header-carousel(
+            arrow="never"
+            indicator-position="none"
+            trigger='click'
+            height='300px'
+            )
+            el-carousel-item(v-for='item, index in images', :key='index')
+              .background(:style="{backgroundImage: `url(${item.src})`}")
+          .background.home-main-content-header-item(
+            v-for='item, index in images'
+            :key='index'
+            :style='{backgroundImage: `url(${item.src})`}'
+            )
+          .button.is-secondary.is-plain.round more...
+        .home-main-content-video
+          .content-title
+            |视频作品
+            br
+            |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
+
+
+
+
 </template>
 
 <script>
@@ -20,7 +49,8 @@ export default {
       images: [
         {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '1'},
         {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '2'},
-        {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '2'},
+        {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '3'},
+        {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '4'}
       ],
     }
   },
@@ -73,4 +103,56 @@ export default {
     &-subtitle
       line-height 2
       font-size $font-size-small
+
+.home
+  &-main
+    &-header
+      padding 80px 0
+      display flex
+      flex-direction column
+      align-items center
+      font-size $font-size-small-s
+      font-family sans-serif
+      color $font-color-l
+      .button
+        margin-bottom 10px
+        letter-spacing 1em
+        font-size $font-size-small
+    &-content
+      padding 0 20px 100px
+      &-header
+        margin 0 auto
+        display flex
+        flex-wrap wrap
+        min-width 700px
+        width 60vw
+        $gap = 1%
+        $height = 300px
+        &-carousel
+          flex 0 0 70%
+          width 70%
+          .background
+            height $height
+        &-item
+          flex 0 0 ((100% - $gap * 2) / 3)
+          height ($height * 0.6)
+          margin-top $gap
+          &:not(:nth-child(3))
+            margin-left $gap
+          &:nth-child(2)
+            margin-top 0
+            width w=(30% - $gap)
+            height $height
+            flex 0 0 w
+        .button
+          margin 30px 50%
+          transform translateX(-50%)
+      .content-title
+        margin 50px 0
+        text-align center
+        font-size $font-size-small-s
+        &:first-line
+          font-size $font-size-medium-x
+          line-height 2.5
+
 </style>
