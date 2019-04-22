@@ -1,6 +1,5 @@
 <template lang="pug">
   div(
-    class="video-player-box"
     :playsinline="playsinline"
     @play="onPlayerPlay($event)"
     @pause="onPlayerPause($event)"
@@ -41,12 +40,14 @@ export default {
       // videojs options
       playerOptions: {
         width: this.width,
-        height: this.height,
-        autoplay: false,
+        // height: this.height,
+        // autoplay: false,
         preload: 'auto',
-        // muted: true,
+        muted: true, // 必须静音才能执行play，不然报错
         language: 'zh-CN',
         // playbackRates: [0.7, 1.0, 1.5, 2.0],
+        // fill: true,
+        fluid: true,
         sources: [{
           type: "video/mp4",
           src: this.src,
@@ -116,6 +117,7 @@ export default {
       // console.log('player Timeupdate!', player.currentTime())
     },
     onPlayerCanplay(player) {
+      // player.play()
       // console.log('player Canplay!', player)
     },
     onPlayerCanplaythrough(player) {

@@ -35,15 +35,19 @@
             |视频作品
             br
             |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
-          
+
           .content-box
             .content-box-item(v-for="item in 3")
-              video-player
+              .content-box-item-video
+                .content-box-item-video-bg
+                video-player
               .content-box-item-info
-                |视频作品
-                br
-                |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
-
+                .content-title
+                  |视频作品
+                  br
+                  |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
+                  br
+                  .button.is-secondary.is-plain.round more...
 
 
 
@@ -163,8 +167,58 @@ export default {
         margin 50px 0
         text-align center
         font-size $font-size-small-s
+        white-space nowrap
+        text-overflow ellipsis
+        overflow hidden
         &:first-line
           font-size $font-size-medium-x
           line-height 2.5
+      .content-box
+        padding 0 20px
+        &-item
+          display flex
+          align-items center
+          $gap = 2%
+          &:not(:last-child)
+            margin-bottom 50px
+          &>*
+            flex  0 0 w=((100% - $gap) / 2)
+            width w
+          &-video
+            position relative
+            &-bg
+              background-stripe()
+              position absolute
+              left $gap
+              top $gap
+              width 100%
+              height 100%
+          &:nth-child(odd)
+            // flex-wrap wrap-reverse
+            flex-direction row-reverse
+            .content-box-item-video-bg
+              left auto
+              right $gap
+              top $gap
+            .content-box-item-info
+              margin-left 0
+              margin-right $gap
+              padding-left 0
+              padding-right $gap
+              text-align right
 
+          &-info
+            margin-left $gap
+            box-sizing border-box
+            padding-left $gap
+            font-size $font-size-small-s
+            text-align left
+            .content-title
+              display inline-block
+              text-align left
+              width (100% - $gap - 20%)
+              &:first-line
+                font-size $font-size-medium
+              .button
+                margin-top 30px
 </style>
