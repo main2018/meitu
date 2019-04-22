@@ -35,6 +35,14 @@
             |视频作品
             br
             |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
+          
+          .content-box
+            .content-box-item(v-for="item in 3")
+              video-player
+              .content-box-item-info
+                |视频作品
+                br
+                |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
 
 
 
@@ -42,8 +50,12 @@
 </template>
 
 <script>
+import videoPlayer from '~/components/video'
 
 export default {
+  components: {
+    videoPlayer
+  },
   data() {
     return {
       images: [

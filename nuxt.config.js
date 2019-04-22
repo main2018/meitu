@@ -20,7 +20,7 @@ export default {
     ],
     script: [
       // { src: '//vjs.zencdn.net/7.3.0/video.min.js' }
-      <script src="//vjs.zencdn.net/7.3.0/lang/zh-CN.js"></script>
+      // <script src="//vjs.zencdn.net/7.3.0/lang/zh-CN.js"></script>
     ],
   },
 
