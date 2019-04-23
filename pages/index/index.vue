@@ -1,15 +1,24 @@
 <template lang="pug">
   .home
-    <el-carousel :autoplay="true" :interval="3000" trigger="click" height="40vw">
-      <el-carousel-item v-for="item, index in images" :key="index">
+    el-carousel(
+      ref="carousel"
+      :autoplay="true"
+      arrow="never"
+      indicator-position="none"
+      :interval="3000"
+      trigger="click"
+      height="40vw"
+      class="carousel-box"
+      )
+      el-carousel-item(v-for="item, index in images" :key="index")
         .carousel-item-container
           .background(:style="{backgroundImage: `url(${item.src})`}")
           .carousel-item-info
             .carousel-item-info-content
               .carousel-item-info-title 海南国际旅游岛
               .carousel-item-info-subtitle 2019年4月27日在博鳌亚洲论坛隆重举行
-      </el-carousel-item>
-    </el-carousel>
+      i.carousel-arrow-left.el-icon-arrow-left(@click="changeCarousel(-1)")
+      i.carousel-arrow-right.el-icon-arrow-right(@click="changeCarousel(1)")
     .home-main
       .home-main-header
         .button.round.is-secondary 提供一站式影像视觉解决方案
@@ -17,13 +26,15 @@
       .home-main-content
         .home-main-content-header
           el-carousel.home-main-content-header-carousel(
+            :autoplay="false"
             arrow="never"
             indicator-position="none"
             trigger='click'
             height='300px'
             )
             el-carousel-item(v-for='item, index in images', :key='index')
-              .background(:style="{backgroundImage: `url(${item.src})`}")
+              .background
+                articleCard(v-bind="{url: item.src, title: '标题呀', time: '2019-04-15'}")
           .background.home-main-content-header-item(
             v-for='item, index in images'
             :key='index'
@@ -55,10 +66,12 @@
 
 <script>
 import videoPlayer from '~/components/video'
+import articleCard from '~/components/article-card'
 
 export default {
   components: {
-    videoPlayer
+    videoPlayer,
+    articleCard
   },
   data() {
     return {
@@ -74,7 +87,10 @@ export default {
   },
 
   methods: {
-
+    changeCarousel(num) {
+      const api = num === -1 ? 'prev' : 'next'
+      this.$refs.carousel[api]()
+    },
   }
 }
 </script>
@@ -95,6 +111,31 @@ export default {
 .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
 }
+.carousel
+  &-box
+    &:hover
+      .carousel-arrow-left
+      .carousel-arrow-right
+      // & i[class^='carousel-arrow']
+        opacity 1
+  &-arrow
+    $gap = 15%
+    &-left
+    &-right
+      position absolute
+      top 50%
+      transform translateY(-50%)
+      color #fff
+      text-shadow 0 0 6px rgba(0,0,0,.8)
+      font-size 50px
+      z-index 2
+      opacity 0
+      transition opacity .3s
+      cursor pointer
+    &-left
+      left $gap
+    &-right
+      right $gap
 .carousel-item-container
   position relative
   .background
@@ -105,7 +146,7 @@ export default {
     left 0
     bottom 20%
     width 50%
-    background-color rgba(0,0,0,.5)
+    background-stripe(rgba(0,0,0,.5), rgba(128, 132, 130, .5))
     color #fff
     text-align right
     &-content
