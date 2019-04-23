@@ -29,7 +29,6 @@ export default {
     }
   },
   asyncData() {
-    console.log('async')
   },
   created() {
   },

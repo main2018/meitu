@@ -1,4 +1,5 @@
 import { getCategorys } from '~/api/category'
+import { compare } from '~/utils'
 
 export const state = () => ({
   currentIndex: 0,
@@ -16,7 +17,7 @@ export const mutations = {
 export const actions = {
   async nuxtServerInit({ commit }, { req }) {
     const categorys = await getCategorys()
-    commit('SET_CATEGORYS', categorys || [])
+    commit('SET_CATEGORYS', (categorys || []).sort(compare('order')))
     // if (req.session.user) {
     //   commit('user', req.session.user)
     // }

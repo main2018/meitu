@@ -66,11 +66,11 @@ export default {
             {name: 'currentTimeDisplay'}, // 当前已播放时间
             'progressControl',
             {name: 'durationDisplay'}, // 总时间
+            {
+                name: 'volumePanel',
+                inline: false,
+            },
             'fullscreenToggle',
-            // {
-            //     name: 'volumePanel',
-            //     inline: false,
-            // },
           ],
         },
         poster: `${this.src}?vframe/jpg/offset/1`,
