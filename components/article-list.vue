@@ -1,7 +1,9 @@
 <template lang='pug'>
   section.article-list
     .article-list-item(v-for="article, index in articles" :key="index")
-      articleCard(v-bind="{url: qiniuDomain +  article.img + postfix, title: '标题呀', time: '2019-04-15'}")
+      articleCard(
+        v-bind="{url: qiniuDomain +  article.img + postfix, title: '标题呀', time: '2019-04-15', id: article.id}"
+        )
 </template>
 
 <script type='text/ecmascript-6'>

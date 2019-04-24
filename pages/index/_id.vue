@@ -1,9 +1,13 @@
 <template lang="pug">
   .about-us
-    |about
+    |about{{articles}}
+    // articleList(:articles="articles")
 </template>
 
 <script>
+import articleList from '~/components/article-list'
+
+import { getArticleByCategory } from '~/api/article'
 
 export default {
   validate ({ params, store }) {
@@ -18,6 +22,19 @@ export default {
     store.commit('SET_CURRENT_INDEX', currentIndex)
 
     return routers.includes(id)
+  },
+  components: {
+    articleList,
+  },
+  async asyncData({ params }) {
+    const category = params.id
+
+    try {
+      const articles = await getArticleByCategory(category)
+      return { articles }
+    } catch {
+      return { articles: [] }
+    }
   },
   data() {
     return {

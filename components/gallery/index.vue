@@ -4,7 +4,7 @@
       i(:style="genStyleOfDomI(img)")
       img(
         :alt="index"
-        :src="$http + (img.url || img.uri)"
+        :src="qiniuDomain + (img.url || img.uri)"
         @click="preview(index)"
         )
     .viewer(v-show="isViewrShow")
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { qiniuDomain, postfix } from '~/config/qiniu'
+
 async function getRemoteImgsSize (imgs) {
   let images = await Promise.all(
     imgs.map(img => _getSize(img))
@@ -38,8 +40,9 @@ function _getSize (img) {
 }
 function getQiniuUrl (fname, isMob) {
   if (!fname) { return '' }
-  const url = `${QINIU_URL_PREFIX}${fname}`
-  return url + (isMob ? `?imageView2/2/w/800` : '')
+  console.log('qiniuDomain', qiniuDomain)
+  const url = `${qiniuDomain}${fname}`
+  return url
 }
 
 
@@ -49,6 +52,7 @@ export default {
   },
   data () {
     return {
+      qiniuDomain,
       images: [],
       isViewrShow: false,
       currIndex: 0,
@@ -60,10 +64,17 @@ export default {
     }
   },
   watch: {
-    imgs () {
-      getRemoteImgsSize(this.imgs)
-      .then(images => { this.images = images })
-    }
+    imgs: {
+      handler() {
+        getRemoteImgsSize(this.imgs)
+        .then(images => { this.images = images })
+      },
+      immediate: true,
+    },
+    // imgs () {
+    //   getRemoteImgsSize(this.imgs)
+    //   .then(images => { this.images = images })
+    // }
   },
   methods: {
     genStyleOfItem ({width, height}) {
@@ -93,7 +104,7 @@ export default {
       this.isViewrShow = true
       const image = this.images[index]
       const { text, width, height, uri, url: path } = image
-      const url = this.$http + (path || uri)
+      const url = qiniuDomain + (path || uri)
       const radio = width / height
       this.currImg = { url, radio, text }
     },

@@ -31,6 +31,10 @@ export default {
       type: [String, Number],
       default: 200,
     },
+    hoverPlay: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -79,6 +83,8 @@ export default {
   },
   mounted() {
     let timer = null
+
+    if (!this.hoverPlay) return
     this.player.on('mouseenter', function() {
       const paused = this.paused()
       if (paused) {

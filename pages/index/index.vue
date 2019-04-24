@@ -4,12 +4,12 @@
       ref="carousel"
       :autoplay="true"
       arrow="never"
-      indicator-position="none"
       :interval="3000"
       trigger="click"
       height="40vw"
       class="carousel-box"
       )
+      // indicator-position="none"
       el-carousel-item(v-for="item, index in commends" :key="index")
         .carousel-item-container
           .background(:style="{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}")
@@ -57,10 +57,10 @@
             |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
 
           .content-box
-            .content-box-item(v-for="item in 3")
+            .content-box-item(v-for="video in videos")
               .content-box-item-video
                 .content-box-item-video-bg
-                video-player
+                video-player(:src="video" :hoverPlay="true")
               .content-box-item-info
                 .content-title
                   |视频作品
@@ -68,6 +68,31 @@
                   |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
                   br
                   .button.is-secondary.is-plain.round more...
+        .home-main-content-footer
+          .content-title
+            |内容策划与生产
+            br
+            |CONTENT PLANNING & PRODUCTION
+          .content-main
+            .content-main-header
+              .content-main-header-item(v-for=" iten in 3")
+                img(src="~/assets/images/qrcode.png")
+                .title 专业高品质
+                pre
+                  |用专业的态度和技术，
+                  |通过高品质、专业化的全媒体解决方案
+                  |为客户提升品牌价值
+
+            .content-main-content
+              .content-main-content-item(v-for="item in images")
+                .background(:style='{backgroundImage: `url(${item})`}')
+                .title 专业高品质
+                pre
+                  |用专业的态度和技术，
+                  |通过高品质、专业化的全媒体解决方案
+                  |为客户提升品牌价值
+
+
     inscribe(v-bind="site")
 
 </template>
@@ -96,6 +121,10 @@ export default {
     return {
       postfix,
       qiniuDomain,
+      videos: [
+        'http://img.tukeshare.com/%E7%8B%AE%E8%B7%AF%E6%88%88%E9%80%94__%E4%B8%BA%E7%88%B1%E5%89%8D%E8%A1%8C2.mp4',
+        'http://img.tukeshare.com/%E7%8B%AE%E8%B7%AF%E6%88%88%E9%80%94%E8%A5%BF%E8%A1%8C%E7%AC%AC%E5%9B%9B%E7%8B%AE.mp4',
+      ],
       images: [
         {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '1'},
         {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '2'},
@@ -251,6 +280,60 @@ export default {
         &:first-line
           font-size $font-size-medium-x
           line-height 2.5
+      &-footer
+        margin 0 auto
+        min-width 700px
+        width 60vw
+        .content-main
+          &-header
+            display flex
+            justify-content center
+            &-item
+              flex 1
+              text-align center
+              img
+                max-width 60px
+                border-radius 50%
+              .title
+                margin-bottom 20px
+                position relative
+                line-height 2
+                font-size $font-size-medium-x
+                color #378280
+                font-weight 600
+                &::after
+                  content ''
+                  position absolute
+                  left 50%
+                  bottom 0
+                  transform translateX(-50%)
+                  width 30px
+                  border-bottom 3px solid
+              pre
+                font-size $font-size-small-s
+          &-content
+            margin-top 100px
+            display flex
+            &-item
+              padding 10px
+              flex 1
+              border 1px solid #ccc
+              border-radius 5px
+              background-color #fff
+              font-size $font-size-small-s
+              color rgba(0,0,0,.8)
+              &:not(:last-child)
+                margin-right 2%
+              .background
+                margin-bottom 20px
+                padding-top 60%
+                background-color #ccc
+              .title
+                margin-bottom 10px
+                line-height 2
+                border-bottom 1px solid #ccc
+                font-size $font-size-medium-x
+                font-weight 600
       .content-box
         padding 0 20px
         &-item

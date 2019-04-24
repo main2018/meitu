@@ -1,7 +1,7 @@
 <template lang='pug'>
   .article-card
     .background(:style='{backgroundImage: `url(${url})`}')
-    .article-card-mask
+    .article-card-mask(@click="maskClick")
       .article-card-mask-title {{title}}
       .article-card-mask-info {{time}}&emsp;|&emsp;活动现场
 
@@ -13,7 +13,7 @@ props: {
   url: String,
   title: String,
   time: [Number, String],
-  
+  id: String,
 },
 data() {
   return {
@@ -21,7 +21,10 @@ data() {
   };
 },
 methods: {
-
+  maskClick() {
+    if (!this.id) return
+    this.$router.push(`/article-detail/${this.id}`)
+  },
 },
 beforeCreate() {}, //生命周期 - 创建之前
 beforeMount() {}, //生命周期 - 挂载之前
@@ -51,6 +54,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     height 100%
     background-color rgba(255,255,255,.7)
     transition top .5s
+    cursor pointer
     &-title
       line-height 4
       font-size $font-size-large-x
