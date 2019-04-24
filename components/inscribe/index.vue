@@ -5,74 +5,38 @@
         .contact
           .line
           .title 联系我们
-          .text TEL: 0898-8888 8888
-          .text E-MAIL: DAMEI@FOXMAIL.COM
+          .text TEL: {{tel}}
+          .text E-MAIL: {{email}}
         // .qrcode
           span.ch-zn 微信公众号:
           span &nbsp;
-          img(:src="qrcode")
+          img(src="qrcode")
         .wechat-content
           .wechat
-            img(:src="wechatIcon")
+            img(src="~/assets/images/icon-wechat.gif")
             .wechat-text @foto2.cn
             .wechat-note on wechat
           .tips
-            img(:src="qrcode")
+            img(src="~/assets/images/qrcode.png")
     .copyright
       span.text Copyright© Hainan Meitu Culture Communication Co,.Ltd. All RightSReserved
 </template>
 
 <script>
-const { CLIENT_HTTP } = require('../../../../config')
-export default {
-  name: 'inscribe',
-  components: {
-  },
+// import { js } from './inscribe-vue.js'
+// export default js.call(this)
+export { default } from './inscribe-vue.js'
 
-  props: {
-  },
-
-  data () {
-    return {
-    }
-  },
-
-  computed: {
-    qrcode () {
-      return `${CLIENT_HTTP}/static/qrcode.png`
-    },
-    wechatIcon () {
-      return `${CLIENT_HTTP}/static/icon-wechat.gif`
-    },
-    url () {
-      return this.$route.path
-    },
-    thinLine () {
-      return this.url === '/' ? '' : 'bd-1px-t'
-    }
-  },
-
-  watch: {
-  },
-
-  methods: {
-  },
-
-  mounted () {
-  }
-
-}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import '~common/stylus/variable.styl'
 @import './inscribe.styl'
 .pc-inscribe-fluid
   width 100vw
   background #333
 .pc-inscribe
   margin 0 auto
-  color $color-text-white
+  color #fff
 @media only screen and (min-width:1600px)
   .pc-inscribe
     width 1200px

@@ -10,9 +10,9 @@
       height="40vw"
       class="carousel-box"
       )
-      el-carousel-item(v-for="item, index in images" :key="index")
+      el-carousel-item(v-for="item, index in commends" :key="index")
         .carousel-item-container
-          .background(:style="{backgroundImage: `url(${item.src})`}")
+          .background(:style="{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}")
           .carousel-item-info
             .carousel-item-info-content
               .carousel-item-info-title 海南国际旅游岛
@@ -40,7 +40,16 @@
             :key='index'
             :style='{backgroundImage: `url(${item.src})`}'
             )
-          .button.is-secondary.is-plain.round more...
+          el-carousel.home-main-content-header-item(
+            :autoplay="true"
+            arrow="never"
+            indicator-position="none"
+            trigger='click'
+            :height="`${300 * 0.6}px`"
+            )
+            el-carousel-item(v-for='item, index in images', :key='index')
+              articleCard(v-bind="{url: item.src, title: '标题呀', time: '2019-04-15'}")
+          .button.is-secondary.is-plain.round(@click="$router.push('/articles')") more...
         .home-main-content-video
           .content-title
             |视频作品
@@ -59,37 +68,62 @@
                   |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
                   br
                   .button.is-secondary.is-plain.round more...
-
-
+    inscribe(v-bind="site")
 
 </template>
 
 <script>
 import videoPlayer from '~/components/video'
 import articleCard from '~/components/article-card'
+import inscribe from '~/components/inscribe'
+import { qiniuDomain, postfix } from '~/config/qiniu'
+
+import { getArticles } from '~/api/article'
 
 export default {
   components: {
     videoPlayer,
-    articleCard
+    articleCard,
+    inscribe
+  },
+  async asyncData() {
+    const articles = await getArticles()
+    // console.log('articles', articles)
+
+    return { articles: articles || [] }
   },
   data() {
     return {
+      postfix,
+      qiniuDomain,
       images: [
         {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '1'},
         {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '2'},
-        {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '3'},
-        {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '4'}
+        {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '3'}
       ],
     }
   },
   computed: {
+    site() { return this.$store.state.site },
+    commends() {
+      return this._normalizeArticles('isCommend')
+    },
+    imagesTops() {
+      return this._normalizeArticles('isImageTop')
+    },
+    imagesSliders() {
+      return this._normalizeArticles('isImageSlider')
+    },
   },
 
   methods: {
     changeCarousel(num) {
       const api = num === -1 ? 'prev' : 'next'
       this.$refs.carousel[api]()
+    },
+    _normalizeArticles(type) {
+      if (!this.articles) return []
+      return this.articles.filter(article => article[type])
     },
   }
 }
@@ -118,6 +152,7 @@ export default {
       .carousel-arrow-right
       // & i[class^='carousel-arrow']
         opacity 1
+        transform translateY(-50%)
   &-arrow
     $gap = 15%
     &-left
@@ -130,12 +165,14 @@ export default {
       font-size 50px
       z-index 2
       opacity 0
-      transition opacity .3s
+      transition opacity .3s, transform .3s
       cursor pointer
     &-left
       left $gap
+      transform translateY(-50%) translateX(-100%)
     &-right
       right $gap
+      transform translateY(-50%) translateX(100%)
 .carousel-item-container
   position relative
   .background

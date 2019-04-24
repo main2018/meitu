@@ -13,7 +13,7 @@ props: {
   url: String,
   title: String,
   time: [Number, String],
-
+  
 },
 data() {
   return {
@@ -36,6 +36,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 .article-card
   position relative
   height 100%
+  overflow hidden
   .background
     height 100%
   &-mask

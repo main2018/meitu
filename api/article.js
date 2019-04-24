@@ -11,9 +11,16 @@ export function getArticleByCategory(category) {
   })
 }
 
-export function getArticleByCategory(id) {
+export function getArticle(id) {
   return request({
     url: `album/${id}`,
+    method: 'get',
+  })
+}
+
+export function getArticles() {
+  return request({
+    url: `album`,
     method: 'get',
   })
 }

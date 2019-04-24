@@ -3,7 +3,8 @@ import { compare } from '~/utils'
 
 export const state = () => ({
   currentIndex: 0,
-  categorys: []
+  categorys: [],
+  site: {},
 })
 
 export const mutations = {
@@ -12,7 +13,10 @@ export const mutations = {
   },
   SET_CATEGORYS (state, categorys) {
     state.categorys = categorys
-  }
+  },
+  SET_SITE(state, site) {
+    state.site = site || {}
+  },
 }
 export const actions = {
   async nuxtServerInit({ commit }, { req }) {

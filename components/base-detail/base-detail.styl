@@ -1,0 +1,66 @@
+.base-detail
+  .aw-article
+    padding 15px
+  .aw-video
+    position relative
+    width 100%
+  .aw-category
+    font-size .5rem
+    color #888
+  .aw-desc
+    text-indent 2em
+    font-size 1rem
+    color #888
+    line-height 2rem
+  .aw-title
+    font-size 1.2rem
+    font-weight 700
+  .aw-content
+    width 100%
+    color #666
+    h1, h2, h3, h4, h5
+      padding .75rem 15px
+    p
+      text-align: justify
+      text-justify: inter-ideograph
+      text-indent: 1.6em
+      padding 0 15px
+    img
+      display block
+      margin-left -15px
+      padding 0
+      width calc(100% + 30px)
+
+  .aw-video
+  .aw-image
+    width 100%
+    video
+    img
+      width 100%
+  .aw-link
+    padding 15px
+
+.pc-detail
+  min-height calc(100vh - 11.55rem - 60px)
+  .aw-article
+    margin 0 auto
+  .aw-content
+    p
+      font-size .9rem
+      line-height 1.5rem
+
+.mob-detail
+  min-height calc(100vh - 10rem)
+  .aw-content
+    p
+      color currentColor
+      font-size .8rem
+
+@media only screen and (min-width:1600px)
+  .pc-detail
+    .aw-article
+      width 1200px
+@media only screen and (min-width:1024px) and (max-width: 1599px)
+  .pc-detail
+    .aw-article
+      width 1000px

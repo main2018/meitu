@@ -36,9 +36,6 @@
 .wechat-content
   margin-right 2rem
   position: relative
-  &:hover
-    .tips
-      display: block
   flex 1
   text-align right 
   .wechat-text
@@ -51,6 +48,10 @@
     right: 0
     top: -1rem
     text-align left
+    &:hover
+      &~.tips
+        display: block
+      
     img
       margin-left 10px
       width 3.5rem

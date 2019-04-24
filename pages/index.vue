@@ -2,7 +2,7 @@
   .container
     .nav-container
       nav.nav
-        img.nav-logo(src="http://meitu.awoo.co/Corjqd5PHX.png" @click="$router.push('/')")
+        img.nav-logo(:src="logo" @click="$router.push('/')")
         tabs(:tabs="navs" @change="tabsChange" v-model="currentIndex")
         .nav-search
           input(type="text" v-model="keyword")
@@ -16,6 +16,9 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import tabs from '~/components/tabs'
+import { qiniuDomain } from '~/config/qiniu'
+
+import { getSite } from '~/api/site'
 
 export default {
   components: {
@@ -25,19 +28,31 @@ export default {
   data() {
     return {
       keyword: '',
-      currentIndex: this.$store.state.currentIndex || 0,
+      currentIndex: this.$store.state.currentIndex || -1,
     }
   },
-  asyncData() {
+  async fetch({ store }) {
+    const site = await getSite()
+    // console.log('site', site)
+    
+    store.commit('SET_SITE', site)
   },
   created() {
   },
   computed: {
     categorys() { return this.$store.state.categorys },
     navs() {
-      return this.categorys.map(item => item.name).filter(item => !!item)
+      const tabs = this.categorys.map(item => item.name).filter(item => !!item)
+      tabs.push('关于我们')
+      return tabs
     },
-    routers() { return this.categorys.filter(item => !!item.name).map(item => item.route) },
+    routers() {
+      const routers = this.categorys.filter(item => !!item.name).map(item => item.route)
+      routers.push('about-us')
+      return routers
+    },
+    site() { return this.$store.state.site },
+    logo() { return qiniuDomain + (this.site.logo || 'Corjqd5PHX.png') },
   },
   methods: {
     tabsChange(index) {
