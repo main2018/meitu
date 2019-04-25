@@ -2,10 +2,11 @@
   .container
     .nav-container
       nav.nav
-        img.nav-logo(:src="logo" @click="$router.push('/')")
-        tabs(:tabs="navs" @change="tabsChange" v-model="currentIndex")
+        img.nav-logo(:src="logo" @click="logoClick")
+        tabs(:tabs="navs" @change="tabsChange" :value="currentIndex")
         .nav-search
           input(type="text" v-model="keyword")
+          .focus-border
           .nav-search-bar
             span.mdi.mdi-magnify.mdi-16px
             span(v-show = '!keyword') 搜索
@@ -32,13 +33,12 @@ export default {
   data() {
     return {
       keyword: '',
-      currentIndex: this.$store.state.currentIndex || -1,
     }
   },
   async fetch({ store }) {
     const site = await getSite()
     // console.log('site', site)
-    
+
     store.commit('SET_SITE', site)
   },
   created() {
@@ -57,8 +57,13 @@ export default {
     },
     site() { return this.$store.state.site },
     logo() { return qiniuDomain + (this.site.logo || 'Corjqd5PHX.png') },
+    currentIndex() { return this.$store.state.currentIndex },
   },
   methods: {
+    logoClick() {
+      this.$router.push('/')
+      this.$store.commit('SET_CURRENT_INDEX', -1)
+    },
     tabsChange(index) {
       // const arr = ['', '', '', '', '/aboutUs']
 
@@ -91,7 +96,6 @@ export default {
   &-search
     position relative
     width 9.4rem
-    cursor pointer
     align-self flex-end
     input
       padding .2rem
@@ -100,6 +104,19 @@ export default {
       background none
       border-bottom 1px solid #eee
       color #fff
+      outline none
+      &:focus ~ .focus-border
+        width: calc(100% - 1rem)
+        transition: 0.4s
+        left: 0
+    .focus-border
+      position: absolute
+      bottom: calc((48px - .2rem * 2 - 18px - 1px) / 2)
+      left: 50%
+      width: 0
+      height: 2px
+      background-color: $color-secondary
+      transition: 0.4s
     &-bar
       position absolute
       right 1.2rem

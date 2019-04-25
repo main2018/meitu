@@ -135,7 +135,7 @@ export default {
   computed: {
     commends() {
       const commends = this._normalizeArticles('isCommend')
-      console.log('commends', commends)
+      // console.log('commends', commends)
       return commends.length > 1 ? commends : this.images
     },
     imagesTops() {
@@ -178,7 +178,7 @@ export default {
   },
 
   methods: {
-    
+
     changeCarousel(num) {
       const api = num === -1 ? 'prev' : 'next'
       this.$refs.carousel[api]()

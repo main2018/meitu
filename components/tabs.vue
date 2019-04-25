@@ -37,6 +37,11 @@ export default {
       default: 30,
     },
   },
+  watch: {
+    value(index) {
+      this.currentIndex = index
+    },
+  },
   data() {
     return {
       currentIndex: this.value,

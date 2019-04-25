@@ -24,7 +24,7 @@ export default {
     let article = null
     try {
       article = await getArticle(id)
-      console.log('article', article)
+      // console.log('article', article)
     } catch {
       console.log('article error')
     }
@@ -37,7 +37,7 @@ export default {
   },
   mounted() {
     if (!this.article) this.$message.error('文章不存在')
-    console.log(this.getList('images'))
+    // console.log(this.getList('images'))
   },
   methods: {
     getList(val) {

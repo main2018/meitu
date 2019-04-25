@@ -1,5 +1,6 @@
 import { getCategorys } from '~/api/category'
 import { compare } from '~/utils'
+import { log } from 'util';
 
 export const state = () => ({
   currentIndex: 0,
@@ -9,7 +10,7 @@ export const state = () => ({
 
 export const mutations = {
   SET_CURRENT_INDEX(state, currentIndex) {
-    state.currentIndex = currentIndex < 0 ? 0 : currentIndex
+    state.currentIndex = currentIndex
   },
   SET_CATEGORYS (state, categorys) {
     state.categorys = categorys

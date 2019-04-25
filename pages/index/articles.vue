@@ -15,7 +15,7 @@ export default {
   },
   async asyncData() {
     const articles = await getArticles()
-    console.log('articles', articles)
+    // console.log('articles', articles)
 
     return { articles: articles || [] }
   },
