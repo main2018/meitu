@@ -4,6 +4,7 @@
       ref="carousel"
       :autoplay="true"
       arrow="never"
+      :indicator-position="commends > 1 ? '' : 'none'"
       :interval="3000"
       trigger="click"
       height="40vw"
@@ -17,8 +18,8 @@
             .carousel-item-info-content
               .carousel-item-info-title 海南国际旅游岛
               .carousel-item-info-subtitle 2019年4月27日在博鳌亚洲论坛隆重举行
-      i.carousel-arrow-left.el-icon-arrow-left(@click="changeCarousel(-1)")
-      i.carousel-arrow-right.el-icon-arrow-right(@click="changeCarousel(1)")
+      i.carousel-arrow-left.el-icon-arrow-left(@click="changeCarousel(-1)" v-show="commends.length > 1")
+      i.carousel-arrow-right.el-icon-arrow-right(@click="changeCarousel(1)" v-show="commends.length > 1")
     .home-main
       .home-main-header
         .button.round.is-secondary 提供一站式影像视觉解决方案
@@ -32,14 +33,16 @@
             trigger='click'
             height='300px'
             )
-            el-carousel-item(v-for='item, index in images', :key='index')
+            el-carousel-item(v-for='item, index in imagesSliders[0].images', :key='index')
               .background
-                articleCard(v-bind="{url: item.src, title: '标题呀', time: '2019-04-15'}")
+                articleCard(
+                  v-bind="{url: qiniuDomain + item.uri, title: imagesSliders[0].title, time: imagesSliders[0].time, category: imagesSliders[0].category}"
+                  )
           .background.home-main-content-header-item(
-            v-for='item, index in images'
+            v-for='item, index in imagesTops'
             :key='index'
-            :style='{backgroundImage: `url(${item.src})`}'
             )
+            articleCard(v-bind="{url: qiniuDomain + item.img + postfix, title: item.title, time: item.time, category: item.category}")
           el-carousel.home-main-content-header-item(
             :autoplay="true"
             arrow="never"
@@ -47,8 +50,8 @@
             trigger='click'
             :height="`${300 * 0.6}px`"
             )
-            el-carousel-item(v-for='item, index in images', :key='index')
-              articleCard(v-bind="{url: item.src, title: '标题呀', time: '2019-04-15'}")
+            el-carousel-item(v-for='item, index in imagesSliders[1].images', :key='index')
+              articleCard(v-bind="{url: qiniuDomain + item.uri + postfix, title: imagesSliders[1].title, time: imagesSliders[1].time, category: imagesSliders[1].category}")
           .button.is-secondary.is-plain.round(@click="$router.push('/articles')") more...
         .home-main-content-video
           .content-title
@@ -57,15 +60,15 @@
             |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
 
           .content-box
-            .content-box-item(v-for="video in videos")
+            .content-box-item(v-for="video in videoTops")
               .content-box-item-video
                 .content-box-item-video-bg
-                video-player(:src="video" :hoverPlay="true")
+                video-player(:src="video.videos[0].uri" :hoverPlay="true")
               .content-box-item-info
                 .content-title
-                  |视频作品
+                  |{{video.title}}
                   br
-                  |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
+                  |{{video.desc}}
                   br
                   .button.is-secondary.is-plain.round more...
         .home-main-content-footer
@@ -75,8 +78,8 @@
             |CONTENT PLANNING & PRODUCTION
           .content-main
             .content-main-header
-              .content-main-header-item(v-for=" iten in 3")
-                img(src="~/assets/images/qrcode.png")
+              .content-main-header-item(v-for=" item, index in 3")
+                img(:src="require(`~/assets/images/bottom${index + 1}.png`)")
                 .title 专业高品质
                 pre
                   |用专业的态度和技术，
@@ -85,22 +88,18 @@
 
             .content-main-content
               .content-main-content-item(v-for="item in images")
-                .background(:style='{backgroundImage: `url(${item})`}')
-                .title 专业高品质
+                .background(:style='{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}')
+                .title {{item.title}}
                 pre
-                  |用专业的态度和技术，
-                  |通过高品质、专业化的全媒体解决方案
-                  |为客户提升品牌价值
+                  |{{item.desc}}
 
 
-    inscribe(v-bind="site")
 
 </template>
 
 <script>
 import videoPlayer from '~/components/video'
 import articleCard from '~/components/article-card'
-import inscribe from '~/components/inscribe'
 import { qiniuDomain, postfix } from '~/config/qiniu'
 
 import { getArticles } from '~/api/article'
@@ -109,7 +108,6 @@ export default {
   components: {
     videoPlayer,
     articleCard,
-    inscribe
   },
   async asyncData() {
     const articles = await getArticles()
@@ -122,30 +120,65 @@ export default {
       postfix,
       qiniuDomain,
       videos: [
-        'http://img.tukeshare.com/%E7%8B%AE%E8%B7%AF%E6%88%88%E9%80%94__%E4%B8%BA%E7%88%B1%E5%89%8D%E8%A1%8C2.mp4',
-        'http://img.tukeshare.com/%E7%8B%AE%E8%B7%AF%E6%88%88%E9%80%94%E8%A5%BF%E8%A1%8C%E7%AC%AC%E5%9B%9B%E7%8B%AE.mp4',
+        '1555895161705wewillrockyou%E6%B3%95%E5%9B%BD%E4%BE%9D%E4%BA%91%E7%9F%BF%E6%B3%89%E6%B0%B4%E5%B9%BF%E5%91%8A_%E6%A0%87%E6%B8%85.mp4',
+        '1556163043403test.mp4',
+        // 'http://img.tukeshare.com/%E7%8B%AE%E8%B7%AF%E6%88%88%E9%80%94__%E4%B8%BA%E7%88%B1%E5%89%8D%E8%A1%8C2.mp4',
+        // 'http://img.tukeshare.com/%E7%8B%AE%E8%B7%AF%E6%88%88%E9%80%94%E8%A5%BF%E8%A1%8C%E7%AC%AC%E5%9B%9B%E7%8B%AE.mp4',
       ],
       images: [
-        {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '1'},
-        {src: 'http://meitu.awoo.co/F4w2hXraSd.jpg', id: '2'},
-        {src: 'http://meitu.awoo.co/3g95SjHWb1.jpg', id: '3'}
+        {img: '3g95SjHWb1.jpg', title: '标题', desc: '描述描述描述', category: 'test', time: '2019-04-15', id: '1'},
+        {img: 'F4w2hXraSd.jpg', title: '标题', desc: '描述描述描述', category: 'test', time: '2019-04-15', id: '2'},
+        {img: '3g95SjHWb1.jpg', title: '标题', desc: '描述描述描述', category: 'test', time: '2019-04-15', id: '3'}
       ],
     }
   },
   computed: {
-    site() { return this.$store.state.site },
     commends() {
-      return this._normalizeArticles('isCommend')
+      const commends = this._normalizeArticles('isCommend')
+      console.log('commends', commends)
+      return commends.length > 1 ? commends : this.images
     },
     imagesTops() {
-      return this._normalizeArticles('isImageTop')
+      const imagesTops = this._normalizeArticles('isImageTop')
+      return imagesTops.length >= 3 ? imagesTops : imagesTops.concat(this.images).splice(0, 3)
     },
     imagesSliders() {
-      return this._normalizeArticles('isImageSlider')
+      const imagesSliders = this._normalizeArticles('isImageSlider')
+      const resultArr = [...imagesSliders]
+      resultArr.length = 2
+      const obj = Object.assign({}, this.images[0], {
+        images: this.images.map((image, index) => ({
+          order: index,
+          text: '图片配图',
+          uri: image.img,
+          url: '',
+        }))
+      })
+      return resultArr.fill(obj, imagesSliders.length, 2)
     },
+    videoTops() {
+      const videoTops = this._normalizeArticles('isVideoTop')
+      const resultArr = [...videoTops]
+      resultArr.length = 2
+      const obj = Object.assign({}, this.images[0], {
+        videos: this.images.map((image, index) => ({
+          order: index,
+          text: '视频配图',
+          uri: this.videos[0],
+          url: '',
+        }))
+      })
+      return resultArr.fill(obj, videoTops.length, 2)
+    },
+    contentTops() {
+      const contentTops = this._normalizeArticles('isContentTop')
+      return contentTops.length >= 3 ? contentTops : contentTops.concat(this.images).splice(0, 3)
+    },
+    categorys() { return this.$store.state.categorys },
   },
 
   methods: {
+    
     changeCarousel(num) {
       const api = num === -1 ? 'prev' : 'next'
       this.$refs.carousel[api]()
@@ -228,6 +261,7 @@ export default {
       font-size $font-size-small
 
 .home
+  background #f6f7ff
   &-main
     &-header
       padding 80px 0

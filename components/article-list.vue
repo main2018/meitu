@@ -2,7 +2,7 @@
   section.article-list
     .article-list-item(v-for="article, index in articles" :key="index")
       articleCard(
-        v-bind="{url: qiniuDomain +  article.img + postfix, title: '标题呀', time: '2019-04-15', id: article.id}"
+        v-bind="{url: qiniuDomain +  article.img + postfix, title: article.title, time: article.time, category: article.category, id: article.id}"
         )
 </template>
 

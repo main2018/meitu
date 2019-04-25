@@ -6,7 +6,8 @@ export function getArticleByCategory(category) {
     method: 'post',
     data: {
       category,
-      status: 0,
+      // subcategory: '',
+      // status: 0,
     }
   })
 }

@@ -41,9 +41,9 @@ service.interceptors.response.use(
     // if (res.code !== 200) {
     if (!res.success) {
       Message({
-        message: res.message || 'error',
+        message: res.message || '网络忙，请稍后再试',
         type: 'error',
-        duration: 5 * 1000
+        duration: 3 * 1000
       })
       return Promise.reject(res.message || 'error')
     } else {
@@ -53,9 +53,9 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     Message({
-      message: error.message,
+      message: '网络忙，请稍后再试' || error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 3 * 1000
     })
     return Promise.reject(error)
   }

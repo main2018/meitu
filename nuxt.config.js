@@ -27,7 +27,10 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: {
+    color: '#fff',
+    continuous: true,
+  },
 
   /*
   ** Global CSS
@@ -87,5 +90,10 @@ export default {
     */
     extend(config, ctx) {
     }
-  }
+  },
+  // router: { // 配置所有页面渲染后滚动至顶部
+  //   scrollBehavior: function (to, from, savedPosition) {
+  //     return { x: 0, y: 0 }
+  //   }
+  // }
 }

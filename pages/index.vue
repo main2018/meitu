@@ -10,20 +10,24 @@
             span.mdi.mdi-magnify.mdi-16px
             span(v-show = '!keyword') 搜索
     <nuxt-child v-bind="{categorys, routers}"/>
+    inscribe(v-bind="site")
 
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
 import tabs from '~/components/tabs'
+import inscribe from '~/components/inscribe'
 import { qiniuDomain } from '~/config/qiniu'
 
 import { getSite } from '~/api/site'
+import { routers } from '~/config/router'
 
 export default {
   components: {
     Logo,
-    tabs
+    tabs,
+    inscribe,
   },
   data() {
     return {
@@ -43,13 +47,13 @@ export default {
     categorys() { return this.$store.state.categorys },
     navs() {
       const tabs = this.categorys.map(item => item.name).filter(item => !!item)
-      tabs.push('关于我们')
-      return tabs
+      const routersVals = routers.map(router => Object.values(router)[0])
+      return tabs.concat(routersVals)
     },
     routers() {
-      const routers = this.categorys.filter(item => !!item.name).map(item => item.route)
-      routers.push('about-us')
-      return routers
+      const arr = this.categorys.filter(item => !!item.name).map(item => item.route)
+      const routersKeys = routers.map(router => Object.keys(router)[0])
+      return arr.concat(routersKeys)
     },
     site() { return this.$store.state.site },
     logo() { return qiniuDomain + (this.site.logo || 'Corjqd5PHX.png') },
@@ -77,7 +81,7 @@ export default {
   &-logo
     margin-right 1.5rem
     // height inherit
-    padding: 5px;
+    padding: 5px 0;
     height: calc(100% - 10px);
     cursor: pointer;
   .tabs
@@ -105,8 +109,9 @@ export default {
       color #aaa
 
 
-@media only screen and (max-width: 1599px) and (min-width: 1024px)
+// @media only screen and (max-width: 1599px) and (min-width: 1024px)
+@media only screen and (min-width: 1024px)
   .nav
-    width: 1000px;
+    width $screen-width-max
 
 </style>

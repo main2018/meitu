@@ -4,7 +4,7 @@
       i(:style="genStyleOfDomI(img)")
       img(
         :alt="index"
-        :src="qiniuDomain + (img.url || img.uri)"
+        :src="qiniuDomain + img.uri"
         @click="preview(index)"
         )
     .viewer(v-show="isViewrShow")
@@ -28,7 +28,8 @@ async function getRemoteImgsSize (imgs) {
 function _getSize (img) {
   return new Promise(resolve => {
     let dom = document.createElement('img')
-    dom.src = getQiniuUrl(img.url || img.uri)
+    const src = getQiniuUrl(img.uri)
+    dom.src = src
     dom.onload = () => {
       let { width, height } = dom
       resolve({ ...img, width, height })

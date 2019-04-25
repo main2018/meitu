@@ -1,5 +1,5 @@
 <template lang='pug'>
-  .articles
+  .articles.page
     article-list(:articles="articles")
 </template>
 
@@ -9,12 +9,13 @@ import articleList from '~/components/article-list'
 import { getArticles } from '~/api/article'
 
 export default {
+  scrollToTop: true,
   components: {
     articleList
   },
   async asyncData() {
     const articles = await getArticles()
-    // console.log('articles', articles)
+    console.log('articles', articles)
 
     return { articles: articles || [] }
   },
@@ -30,5 +31,5 @@ export default {
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus' scoped>
- 
+
 </style>

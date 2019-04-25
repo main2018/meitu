@@ -19,7 +19,7 @@ export const mutations = {
   },
 }
 export const actions = {
-  async nuxtServerInit({ commit }, { req }) {
+  async nuxtServerInit({ commit }, { req, route }) {
     const categorys = await getCategorys()
     commit('SET_CATEGORYS', (categorys || []).sort(compare('order')))
     // if (req.session.user) {

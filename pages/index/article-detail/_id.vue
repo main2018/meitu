@@ -1,8 +1,8 @@
 <template lang='pug'>
-  section
-    gallery(:imgs="article.images || []")
+  section.page
+    gallery(:imgs="getList('images')")
     .article-detail-videos
-      .article-detail-videos-item(v-for="video in article.videos")
+      .article-detail-videos-item(v-for="video in getList('videos')")
         videoPlayer(:src="video.url || (qiniuDomain + video.uri)")
 </template>
 
@@ -21,18 +21,29 @@ export default {
   async asyncData({ route }) {
     const id = route.params.id
 
-    console.log('id', id)
-    const article = await getArticle(id)
-    console.log(article)
-    return { article: article || {} }
+    let article = null
+    try {
+      article = await getArticle(id)
+      console.log('article', article)
+    } catch {
+      console.log('article error')
+    }
+    return { article }
   },
   data() {
     return {
       qiniuDomain,
     }
   },
+  mounted() {
+    if (!this.article) this.$message.error('文章不存在')
+    console.log(this.getList('images'))
+  },
   methods: {
-
+    getList(val) {
+      if (!val || !this.article) return []
+      return this.article[val]
+    }
   }
 }
 </script>

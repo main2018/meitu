@@ -17,11 +17,13 @@
 </template>
 
 <script>
+import { qiniuDomain, postfix, videoCover } from '~/config/qiniu'
+
 export default {
   props: {
     src: {
       type: String,
-      default: 'http://meitu.awoo.co/1555895161705wewillrockyou%E6%B3%95%E5%9B%BD%E4%BE%9D%E4%BA%91%E7%9F%BF%E6%B3%89%E6%B0%B4%E5%B9%BF%E5%91%8A_%E6%A0%87%E6%B8%85.mp4'
+      default: '1555895161705wewillrockyou%E6%B3%95%E5%9B%BD%E4%BE%9D%E4%BA%91%E7%9F%BF%E6%B3%89%E6%B0%B4%E5%B9%BF%E5%91%8A_%E6%A0%87%E6%B8%85.mp4'
     },
     width: {
       type: [String, Number],
@@ -44,7 +46,7 @@ export default {
       // videojs options
       playerOptions: {
         width: this.width,
-        // height: this.height,
+        height: this.height,
         // autoplay: false,
         preload: 'auto',
         muted: true, // 必须静音才能执行play，不然报错
@@ -53,8 +55,8 @@ export default {
         // fill: true,
         fluid: true,
         sources: [{
-          type: "video/mp4",
-          src: this.src,
+          // type: "video/mp4",
+          src: qiniuDomain + this.src,
           // src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
         }],
         controls: true,
@@ -69,6 +71,9 @@ export default {
             'playToggle',
             {name: 'currentTimeDisplay'}, // 当前已播放时间
             'progressControl',
+            // {
+            //     name: 'timeDivider',
+            // },
             {name: 'durationDisplay'}, // 总时间
             {
                 name: 'volumePanel',
@@ -77,7 +82,7 @@ export default {
             'fullscreenToggle',
           ],
         },
-        poster: `${this.src}?vframe/jpg/offset/1`,
+        poster: `${qiniuDomain + this.src + videoCover}`,
       }
     }
   },

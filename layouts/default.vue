@@ -7,5 +7,4 @@
 <style lang="stylus" scoped>
 #app
   min-width 980px
-  background: #f6f7ff;
 </style>

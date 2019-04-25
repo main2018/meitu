@@ -3,24 +3,34 @@
     .background(:style='{backgroundImage: `url(${url})`}')
     .article-card-mask(@click="maskClick")
       .article-card-mask-title {{title}}
-      .article-card-mask-info {{time}}&emsp;|&emsp;活动现场
+      .article-card-mask-info {{dateDay(time)}}&emsp;|&emsp;{{currentCategory(category)}}
 
 </template>
 
 <script>
+import { dateDay } from '~/utils'
+
 export default {
 props: {
   url: String,
   title: String,
   time: [Number, String],
   id: String,
+  category: String,
 },
 data() {
   return {
-
+    dateDay
   };
 },
+computed: {
+  categorys() { return this.$store.state.categorys },
+},
 methods: {
+  currentCategory(category) {
+    const currentCategory = this.categorys.find(item => item.category === category)
+    return currentCategory && currentCategory.name || '未知专题'
+  },
   maskClick() {
     if (!this.id) return
     this.$router.push(`/article-detail/${this.id}`)

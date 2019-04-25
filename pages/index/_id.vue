@@ -1,7 +1,6 @@
 <template lang="pug">
-  .about-us
-    |about{{articles}}
-    // articleList(:articles="articles")
+  .about-us.page
+    articleList(:articles="articles")
 </template>
 
 <script>
@@ -10,6 +9,9 @@ import articleList from '~/components/article-list'
 import { getArticleByCategory } from '~/api/article'
 
 export default {
+  // 默认情况下，不会在查询字符串 query 更改时调用(asyncData, fetch, validate, layout, ...等方法),
+  // watchQuery: true, // 监听所有query
+  // watchQuery: ['query001'], // 监听所有query.query001
   validate ({ params, store }) {
     // 必须是number类型
     // return /^\d+$/.test(params.id)
@@ -33,6 +35,7 @@ export default {
       const articles = await getArticleByCategory(category)
       return { articles }
     } catch {
+      console.log('error')
       return { articles: [] }
     }
   },
