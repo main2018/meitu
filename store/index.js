@@ -3,7 +3,7 @@ import { compare } from '~/utils'
 import { log } from 'util';
 
 export const state = () => ({
-  currentIndex: 0,
+  currentIndex: -1,
   categorys: [],
   site: {},
 })
@@ -21,6 +21,7 @@ export const mutations = {
 }
 export const actions = {
   async nuxtServerInit({ commit }, { req, route }) {
+    console.log('nuxtServerInit')
     const categorys = await getCategorys()
     commit('SET_CATEGORYS', (categorys || []).sort(compare('order')))
     // if (req.session.user) {

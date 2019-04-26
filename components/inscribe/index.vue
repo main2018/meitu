@@ -32,7 +32,7 @@ export { default } from './inscribe-vue.js'
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import './inscribe.styl'
 .pc-inscribe-fluid
-  width 100vw
+  // width 100vw
   background #333
 .pc-inscribe
   margin 0 auto

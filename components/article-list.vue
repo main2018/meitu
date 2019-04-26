@@ -32,9 +32,9 @@ export default {
 <style lang='stylus' rel='stylesheet/stylus' scoped>
 .article-list
   display flex
-  justify-content space-between
+  // justify-content space-between
   flex-wrap wrap
-  $gap = 20px
+  $gap = 10px
   $row-num = 4
   $w = "calc((100% - (%s - 1) * %s) / %s)" % ($row-num $gap $row-num)
   // left "calc(50% - %s - %s)" % （arrow-a arrow-b） // 多个变量
@@ -45,5 +45,6 @@ export default {
     height 200px
     margin-bottom $gap
     // &:not(:nth-child({$n}))
-    //   margin-right $gap
+    &:not(:nth-child(4n))
+      margin-right $gap
 </style>

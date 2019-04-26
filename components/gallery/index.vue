@@ -4,20 +4,23 @@
       i(:style="genStyleOfDomI(img)")
       img(
         :alt="index"
-        :src="qiniuDomain + img.uri"
+        :src="img.url || (qiniuDomain + img.uri)"
         @click="preview(index)"
         )
-    .viewer(v-show="isViewrShow")
-      .mask(@click="close")
+    .viewer(v-show="isViewrShow" @click="close")
+      .mask
       // .mdi.mdi-36px.mdi-close(@click="close")
-      .mdi.mdi-36px.mdi-chevron-left(@click="next(true)")
-      .mdi.mdi-36px.mdi-chevron-right(@click="next(false)")
-      img.img(:src="currImg.url" :style="getViewrStyle(currImg.radio)")
-      .text(v-show="currImg.text") {{currImg.text}}
+      .mdi.mdi-36px.mdi-chevron-left(@click.stop="next(true)")
+      .mdi.mdi-36px.mdi-chevron-right(@click.stop="next(false)")
+      .viewer-content
+        img.img(:src="currImg.url" :style="getViewrStyle(currImg.radio)")
+        .text(v-show="currImg.text") {{currImg.text}}
 </template>
 
 <script>
 import { qiniuDomain, postfix } from '~/config/qiniu'
+
+const isServer = typeof window === 'undefined'
 
 async function getRemoteImgsSize (imgs) {
   let images = await Promise.all(
@@ -26,7 +29,10 @@ async function getRemoteImgsSize (imgs) {
   return Promise.resolve(images)
 }
 function _getSize (img) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
+    if (isServer) {
+      return reject('error')
+    }
     let dom = document.createElement('img')
     const src = getQiniuUrl(img.uri)
     dom.src = src
@@ -35,7 +41,7 @@ function _getSize (img) {
       resolve({ ...img, width, height })
     }
     dom.onerror = () => {
-      console.log('on error')
+      reject('error')
     }
   })
 }
@@ -69,6 +75,9 @@ export default {
       handler() {
         getRemoteImgsSize(this.imgs)
         .then(images => { this.images = images })
+        .catch(err => {
+          console.log('图片处理失败')
+        })
       },
       immediate: true,
     },
@@ -90,13 +99,14 @@ export default {
     getViewrStyle (radio) {
       let style = {}
       if (radio <= 1) {
-        style.marginTop = '2rem'
+        // style.marginTop = '2rem'
         style.height = '75vh'
       } else if (radio < 2.5 && radio > 1) {
         style.height = '45vw'
       } else if (radio >= 2.5) {
-        style.marginTop = '20vh'
-        style.width = '98vw'
+        // style.marginTop = '20vh'
+        // style.width = '98vw'
+        style.width = '85vw'
       }
       return style
     },
@@ -105,7 +115,7 @@ export default {
       this.isViewrShow = true
       const image = this.images[index]
       const { text, width, height, uri, url: path } = image
-      const url = qiniuDomain + (path || uri)
+      const url = path || (qiniuDomain + uri)
       const radio = width / height
       this.currImg = { url, radio, text }
     },
@@ -133,7 +143,6 @@ export default {
 <style lang="stylus" scoped>
 $mask-bg = rgba(128, 128, 128, 0.9)
 section
-  padding 2px
   display: flex
   flex-wrap: wrap
   &::after
@@ -142,8 +151,9 @@ section
   .img-item
     position: relative
     flex-grow: 1
-    margin: 2px
+    padding: 2px
     background-color: #eee
+    box-sizing border-box
     i
       display: block
     img
@@ -154,20 +164,15 @@ section
       vertical-align: bottom
 .viewer
   position fixed
-  z-index: 10000;
+  z-index: 10000
   width 100vw
-  height calc(100vh - 3rem)
+  height 100vh
   overflow hidden
-  top 3.7rem
+  top 0
   left 0
   text-align: center;
   .mask
-    position: fixed
-    z-index: -1;
-    top: 0;
-    left 0
-    width: 100vw;
-    height: 100vh;
+    height: 100%
     background $mask-bg
     &:before
       content ''
@@ -178,6 +183,8 @@ section
       filter bulur(10px)
   .mdi
     position: absolute
+    top 50%
+    transform translateY(-50%)
     padding .5rem
     width 2rem
     height 2rem
@@ -190,28 +197,26 @@ section
     transition .4s
     color #fff
     filter opacity(.5)
+    z-index 1
     &:hover
-      transform scale(2)
+      transform translateY(-50%) scale(2)
       filter opacity(1)
-  .mdi-close
-    top: 0;
-    right: 1rem;
   .mdi-chevron-left
-    top 35vh
     left 1vw
   .mdi-chevron-right
-    top 35vh
     right 1vw
-  .img
-    border solid 5px #fff;
-    background-color: #FFF;
-  .text
-    position: absolute
-    padding .5rem 2vw
-    bottom .5rem
-    width: 96vw;
-    text-align: left;
-    font-size .8rem
-    color #eee
-    background-color: $mask-bg
+  &-content
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+    .img
+      border solid 5px #fff
+      background-color: #FFF
+    .text
+      padding .5rem 2vw
+      bottom .5rem
+      text-align: left
+      font-size .8rem
+      color #eee
 </style>

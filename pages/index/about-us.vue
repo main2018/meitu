@@ -16,7 +16,7 @@
     .about-us-footer.follow-nav
       .about-us-title 联系我们
       .about-us-footer-content
-        pre 
+        .about-us-footer-content-left
           |{{about.tel}}
           br
           |{{about.email}}
@@ -66,13 +66,14 @@ export default {
 .about-us
   $padding-y = 50px
   color $font-color-l
+  $border-width = 5px
   .follow-nav
     margin 0 auto
     max-width $screen-width-max
   &-title
     margin-bottom 20px
     padding-left 10px
-    border-left 5px solid $color-secondary
+    border-left $border-width solid $color-secondary
     font-size $font-size-large
     line-height 1
   &-header
@@ -116,6 +117,7 @@ export default {
       text-overflow ellipsis
       overflow hidden
       font-weight 600
+      letter-spacing .2em
       &:first-line
         font-size $font-size-medium-x
         line-height 2.5
@@ -123,6 +125,7 @@ export default {
   &-footer
     padding 20px 0 50px
     &-content
+      margin-left $border-width
       display flex
       align-items flex-start
       img

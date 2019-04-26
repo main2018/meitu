@@ -7,4 +7,5 @@
 <style lang="stylus" scoped>
 #app
   min-width 980px
+  font-family 'PingFang SC', 'Microsoft Yahei'
 </style>

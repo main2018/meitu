@@ -67,7 +67,7 @@ export default {
     tabsChange(index) {
       // const arr = ['', '', '', '', '/aboutUs']
 
-      this.$router.push(this.routers[index])
+      this.$router.push('/' + this.routers[index])
     }
   }
 }
@@ -86,7 +86,7 @@ export default {
   &-logo
     margin-right 1.5rem
     // height inherit
-    padding: 5px 0;
+    // padding: 5px 0;
     height: calc(100% - 10px);
     cursor: pointer;
   .tabs
@@ -111,7 +111,7 @@ export default {
         left: 0
     .focus-border
       position: absolute
-      bottom: calc((48px - .2rem * 2 - 18px - 1px) / 2)
+      bottom: calc((48px - .2rem * 2 - 18px - 4px) / 2)
       left: 50%
       width: 0
       height: 2px

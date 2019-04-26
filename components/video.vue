@@ -48,7 +48,8 @@ export default {
         width: this.width,
         height: this.height,
         // autoplay: false,
-        preload: 'auto',
+        // preload: 'auto',
+        preload: 'meta',
         muted: true, // 必须静音才能执行play，不然报错
         language: 'zh-CN',
         // playbackRates: [0.7, 1.0, 1.5, 2.0],
@@ -148,6 +149,7 @@ export default {
 
 <style lang="stylus" socped>
 .video-js
+  overflow-x hidden
   .vjs-big-play-button
     position absolute
     left 50%

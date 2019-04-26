@@ -113,7 +113,7 @@ li:last-child
     display inline-block
   .tab-line
     display inline-block
-    height 100%
+    height calc(100% + 3px)
     box-sizing border-box
     border-bottom 2px solid
     transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);

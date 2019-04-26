@@ -1,9 +1,10 @@
 <template lang='pug'>
-  section.page
+  section.article-detail.page
     gallery(:imgs="getList('images')")
     .article-detail-videos
       .article-detail-videos-item(v-for="video in getList('videos')")
-        videoPlayer(:src="video.url || (qiniuDomain + video.uri)")
+        videoPlayer(:src="video.uri")
+    .article-detail-article(v-html="article.article")
 </template>
 
 <script type='text/ecmascript-6'>
@@ -18,17 +19,21 @@ export default {
     gallery,
     videoPlayer,
   },
-  async asyncData({ route }) {
+  async asyncData({ route, redirect }) {
     const id = route.params.id
 
     let article = null
     try {
       article = await getArticle(id)
       // console.log('article', article)
+      return { article }
     } catch {
       console.log('article error')
+      redirect({
+        path: '/empty',
+        query: { msg: '该文章走丢了' },
+      })
     }
-    return { article }
   },
   data() {
     return {
@@ -48,6 +53,20 @@ export default {
 }
 </script>
 
-<style lang='stylus' rel='stylesheet/stylus' scoped>
-
+<style lang='stylus' rel='stylesheet/stylus'>
+.article-detail
+  &-videos
+    display flex
+    flex-wrap wrap
+    $gap = 0
+    &-item
+      padding 2px
+      box-sizing border-box
+      flex 0 0 ((100% - $gap) / 2)
+      &:nth-child(even)
+        margin-left $gap
+  &-article
+    padding 2px
+    img
+      max-width 100%
 </style>
