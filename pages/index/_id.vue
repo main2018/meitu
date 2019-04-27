@@ -28,8 +28,11 @@ export default {
   components: {
     articleList,
   },
-  async asyncData({ params }) {
-    const category = params.id
+  async asyncData({ params, store }) {
+    const id = params.id
+    const categorys = store.state.categorys
+    const currentCategory = categorys.filter(item => !!item.name).find(item => item.route === id)
+    const category = currentCategory && currentCategory.category
 
     const articles = await getArticleByCategory(category)
 
