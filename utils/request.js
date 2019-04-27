@@ -18,7 +18,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    console.log(config.baseURL + config.url, 'isClient:', isClient)
+    // console.log(config.baseURL + config.url, 'isClient:', isClient)
     // console.log('isClient', isClient)
     // const baseURL = `${isClient ? API_PREFIX : API_URL}`
     // console.log('baseURL', baseURL)

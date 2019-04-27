@@ -66,8 +66,16 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     transition top .5s
     cursor pointer
     &-title
-      line-height 4
+      // line-height 4
+      $max-line-clamp = 3
+      $line-height = 1.5
       font-size $font-size-large-x
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-box-orient: vertical
+      -webkit-line-clamp: $max-line-clamp
+      line-height: $line-height
+      max-height: "calc(%s * %s * %s)" % ($font-size-large-x $line-height $max-line-clamp)
     &-info
       font-size $font-size-small-s
       color $font-color-l

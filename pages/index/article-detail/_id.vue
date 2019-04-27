@@ -19,21 +19,32 @@ export default {
     gallery,
     videoPlayer,
   },
-  async asyncData({ route, redirect }) {
+  asyncData({ route, redirect }) {
     const id = route.params.id
 
     let article = null
-    try {
-      article = await getArticle(id)
-      // console.log('article', article)
-      return { article }
-    } catch {
-      console.log('article error')
-      redirect({
-        path: '/empty',
-        query: { msg: '该文章走丢了' },
+    return getArticle(id)
+      .then(resp => {
+        return { article: resp || {} }
       })
-    }
+      .catch(() => {
+        redirect({
+          path: '/empty',
+          query: { msg: '该文章走丢了' }
+        })
+      })
+    // try {
+    //   // article = await getArticle(id)
+    //   article = await getArticles()
+    //   // console.log('article', article)
+    //   return { article: article && article[0] }
+    // } catch {
+    //   console.log('article error')
+    //   redirect({
+    //     path: '/empty',
+    //     query: { msg: '该文章走丢了' }
+    //   })
+    // }
   },
   data() {
     return {
@@ -58,6 +69,7 @@ export default {
   &-videos
     display flex
     flex-wrap wrap
+    justify-content center
     $gap = 0
     &-item
       padding 2px
@@ -67,6 +79,7 @@ export default {
         margin-left $gap
   &-article
     padding 2px
+    text-align center
     img
       max-width 100%
 </style>

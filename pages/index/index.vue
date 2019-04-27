@@ -12,7 +12,7 @@
       )
       // indicator-position="none"
       el-carousel-item(v-for="item, index in commends" :key="item.id")
-        .carousel-item-container
+        .carousel-item-container(@click="$router.push(`/article-detail/${item.id}`)")
           .background(:style="{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}")
           .carousel-item-info
             .carousel-item-info-content
@@ -78,14 +78,19 @@
             |CONTENT PLANNING & PRODUCTION
           .content-main
             .content-main-header
-              .content-main-header-item(v-for=" item, index in footers")
+              .content-main-header-item(
+                v-for=" item, index in footers"
+                )
                 img(:src="require(`~/assets/images/bottom${index + 1}.png`)")
                 .title {{item.title}}
                 pre
                   span(v-for="text in item.desc") {{text}}
                     br
             .content-main-content
-              .content-main-content-item(v-for="item in contentTops")
+              .content-main-content-item(
+                v-for="item in contentTops"
+                @click="$router.push(`/article-detail/${item.id}`)"
+                )
                 .cover: .background(:style='{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}')
                 .title {{item.title}}
                 pre

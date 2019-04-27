@@ -31,6 +31,7 @@ async function getRemoteImgsSize (imgs) {
 function _getSize (img) {
   return new Promise((resolve, reject) => {
     if (isServer) {
+      console.log('isServer')
       return reject('error')
     }
     let dom = document.createElement('img')
@@ -73,10 +74,12 @@ export default {
   watch: {
     imgs: {
       handler() {
-        getRemoteImgsSize(this.imgs)
-        .then(images => { this.images = images })
-        .catch(err => {
-          console.log('图片处理失败')
+        this.$nextTick(() => {
+          getRemoteImgsSize(this.imgs)
+            .then(images => { this.images = images })
+            .catch(err => {
+              console.log('图片处理失败')
+            })
         })
       },
       immediate: true,
@@ -213,10 +216,18 @@ section
     .img
       border solid 5px #fff
       background-color: #FFF
+      &:hover ~ .text
+        transform translateY(-100%)
+        opacity 1
     .text
-      padding .5rem 2vw
-      bottom .5rem
+      position absolute
+      width 100%
+      box-sizing border-box
+      transition all .3s
+      opacity 0
+      padding 1rem 2vw
       text-align: left
       font-size .8rem
       color #eee
+      background-color rgba(0,0,0,.6)
 </style>

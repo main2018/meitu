@@ -13,7 +13,6 @@ export default {
   // watchQuery: true, // 监听所有query
   // watchQuery: ['query001'], // 监听所有query.query001
   validate ({ params, store }) {
-    console.log('777777777')
     // 必须是number类型
     // return /^\d+$/.test(params.id)
     const categorys = store.state.categorys
@@ -30,17 +29,19 @@ export default {
     articleList,
   },
   async asyncData({ params }) {
-    console.log('888888888')
     const category = params.id
 
-    try {
-      const articles = await getArticleByCategory(category)
-      // console.log('articles', articles)
-      return { articles }
-    } catch {
-      console.log('error')
-      return { articles: [] }
-    }
+    const articles = await getArticleByCategory(category)
+
+    return { articles: articles || [] }
+
+    // try {
+    //   // console.log('articles', articles)
+
+    // } catch {
+    //   console.log('error')
+    //   return { articles: [] }
+    // }
   },
   data() {
     return {
