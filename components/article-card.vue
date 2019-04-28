@@ -1,6 +1,6 @@
 <template lang='pug'>
   .article-card
-    .background(:style='{backgroundImage: `url(${url})`}')
+    .background(:style='{backgroundImage: `url(${url + imageSmall})`}')
     .article-card-mask(@click="maskClick")
       .article-card-mask-title {{title}}
       .article-card-mask-info {{dateDay(time)}}&emsp;|&emsp;{{currentCategory(category)}}
@@ -9,6 +9,7 @@
 
 <script>
 import { dateDay } from '~/utils'
+import { imageSmall } from '~/config/qiniu'
 
 export default {
 props: {
@@ -20,6 +21,7 @@ props: {
 },
 data() {
   return {
+    imageSmall,
     dateDay
   };
 },

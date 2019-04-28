@@ -70,7 +70,7 @@
                   br
                   |{{video.desc}}
                   br
-                  .button.is-secondary.is-plain.round(@click="$router.push('/articles')") more...
+                  .button.is-secondary.is-plain.round(@click="moreVideoClick(video)") more...
         .home-main-content-footer
           .content-title
             |内容策划与生产
@@ -205,7 +205,13 @@ export default {
   },
 
   methods: {
+    moreVideoClick(obj) {
+      const category = obj && obj.category
+      const currentCategory = this.categorys.find(item => item.category === category) || {}
+      const route = currentCategory.route || 'Movies'
 
+      this.$router.push(`/${route}`)
+    },
     changeCarousel(num) {
       const api = num === -1 ? 'prev' : 'next'
       this.$refs.carousel[api]()
@@ -249,13 +255,16 @@ export default {
       position absolute
       top 50%
       transform translateY(-50%)
-      color #fff
+      color rgba(255,255,255,.8)
       text-shadow 0 0 6px rgba(0,0,0,.8)
-      font-size 50px
+      font-size 40px
       z-index 2
       opacity 0
       transition opacity .3s, transform .3s
       cursor pointer
+      &:hover
+        transform translateY(-50%) scale(1.3)!important
+        color rgba(255,255,255,1)
     &-left
       left $gap
       transform translateY(-50%) translateX(-100%)
@@ -264,6 +273,7 @@ export default {
       transform translateY(-50%) translateX(100%)
 .carousel-item-container
   position relative
+  cursor pointer
   .background
     height 40vw
   .carousel-item-info

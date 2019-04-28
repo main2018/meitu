@@ -31,7 +31,7 @@ async function getRemoteImgsSize (imgs) {
 function _getSize (img) {
   return new Promise((resolve, reject) => {
     if (isServer) {
-      console.log('isServer')
+      // console.log('isServer')
       return reject('error')
     }
     let dom = document.createElement('img')
@@ -48,7 +48,6 @@ function _getSize (img) {
 }
 function getQiniuUrl (fname, isMob) {
   if (!fname) { return '' }
-  console.log('qiniuDomain', qiniuDomain)
   const url = `${qiniuDomain}${fname}`
   return url
 }
@@ -74,11 +73,17 @@ export default {
   watch: {
     imgs: {
       handler() {
+        const loading = this.$loading({ fullscreen: true })
         this.$nextTick(() => {
           getRemoteImgsSize(this.imgs)
-            .then(images => { this.images = images })
+            .then(images => {
+              this.images = images
+            })
             .catch(err => {
               console.log('图片处理失败')
+            })
+            .finally(() => {
+              if (loading) loading.close()
             })
         })
       },

@@ -1,4 +1,4 @@
-import pkg from './package'
+// import pkg from './package'
 import { API_URL, isProduction } from './config'
 
 export default {
@@ -8,11 +8,12 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: '美图文化',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      // { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: '美图文化' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
