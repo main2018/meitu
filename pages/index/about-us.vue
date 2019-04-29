@@ -3,7 +3,8 @@
     .about-us-header.follow-nav
       .about-us-title 关于我们
       .about-us-header-content
-        pre {{about.introduce}}
+        //- pre {{about.introduce}}
+        .introduce(v-html="about.introduce")
         img(:src="qiniuDomain + about.illustrate + postfix")
     .about-us-content.follow-nav
       .about-us-content-title
@@ -82,10 +83,10 @@ export default {
       padding 0 0 30px
       display flex
       align-items flex-start
-      pre
-        width 40%
-        white-space pre-wrap
-        text-indent 2em
+      .introduce
+        width 50%
+        // white-space pre-wrap
+        // text-indent 2em
         line-height 2
       img
         margin-left 100px

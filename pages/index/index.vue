@@ -2,7 +2,7 @@
   .home
     el-carousel(
       ref="carousel"
-      :autoplay="true"
+      :autoplay="false"
       arrow="never"
       :indicator-position="commends > 1 ? '' : 'none'"
       :interval="3000"
@@ -66,7 +66,7 @@
                 video-player(:src="video && video.video" :hoverPlay="true")
               .content-box-item-info
                 .content-title
-                  |{{video.title}}
+                  .content-title-title {{video.title}}
                   br
                   |{{video.desc}}
                   br
@@ -279,12 +279,25 @@ export default {
   .carousel-item-info
     padding 10px 20px
     position absolute
+    z-index 2
     left 0
     bottom 20%
     width 50%
-    background-stripe(rgba(0,0,0,.5), rgba(128, 132, 130, .5))
+    // background-stripe(rgba(0,0,0,.5), rgba(128, 132, 130, .5))
     color #fff
     text-align right
+    &::before
+      content ''
+      all inherit
+      background-image url('~assets/images/oblique_line.png')
+      background-size auto 100%
+      width 100%
+      height 100%
+      box-sizing border-box
+      bottom 0
+      z-index -1
+      opacity 0.67
+
     &-content
       display inline-block
       text-align left
@@ -316,7 +329,8 @@ export default {
         letter-spacing 1em
         font-size $font-size-small
     &-content
-      padding 20px 20px 100px
+      $content-padding = 20px
+      padding 20px $content-padding 100px
       &-header
         margin 0 auto
         display flex
@@ -425,6 +439,7 @@ export default {
                 white-space nowrap
       .content-box
         padding 0 20px
+        // width calc(100vw - 20px * 2)
         &-item
           display flex
           align-items center
@@ -443,7 +458,7 @@ export default {
               top $gap
               width 100%
               height 100%
-          &:nth-child(odd)
+          &:nth-child(even)
             // flex-wrap wrap-reverse
             flex-direction row-reverse
             .content-box-item-video-bg
@@ -465,10 +480,15 @@ export default {
             text-align left
             .content-title
               display inline-block
+              line-height 2
               text-align left
               width (100% - $gap - 20%)
-              &:first-line
+              &-title
+                padding-right 20px
+                display inline-block
                 font-size $font-size-medium
+                font-weight bold
+                border-bottom 1px solid
               .button
                 margin-top 30px
 </style>

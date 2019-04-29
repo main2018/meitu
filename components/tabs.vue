@@ -34,7 +34,7 @@ export default {
     },
     gap: {
       type: Number,
-      default: 30,
+      default: 50,
     },
   },
   watch: {

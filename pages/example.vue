@@ -7,6 +7,11 @@
         <h3>{{ item }}</h3>
       </el-carousel-item>
     </el-carousel>
+    <div id="box">
+      <video id="trialvid" class="video-js vjs-default-skin vjs-16-9" controls preload="auto" width="auto" height="auto" poster="http://meitu.awoo.co/1555895161705wewillrockyou%E6%B3%95%E5%9B%BD%E4%BE%9D%E4%BA%91%E7%9F%BF%E6%B3%89%E6%B0%B4%E5%B9%BF%E5%91%8A_%E6%A0%87%E6%B8%85.mp4?vframe/jpg/offset/1" >
+        <source src="http://meitu.awoo.co/1555895161705wewillrockyou%E6%B3%95%E5%9B%BD%E4%BE%9D%E4%BA%91%E7%9F%BF%E6%B3%89%E6%B0%B4%E5%B9%BF%E5%91%8A_%E6%A0%87%E6%B8%85.mp4" type='video/mp4' />
+      </video>
+    </div>
 </template>
 
 <script>
