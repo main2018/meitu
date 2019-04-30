@@ -8,6 +8,7 @@
       ) {{tab}}
 
     li(:data-prev="prevData")
+      span {{prevData}}
       .tab-line(:style="lineStyle") {{tabs[currentIndex]}}
 </template>
 
@@ -56,7 +57,8 @@ export default {
     lineStyle() {
       const len = this.tabs.length
       return {
-        marginLeft: this.currentIndex * this.gap + 'px',
+        // marginLeft: this.currentIndex * this.gap + 'px',
+        transform: `translateX(${this.currentIndex * this.gap}px)`,
         borderColor: this.borderColor,
         // left: len > 1 ? this.currentIndex * 100 / len + '%' : this.currentIndex * 200 + 'px'
       }
@@ -67,6 +69,8 @@ export default {
       }
     },
     prevData() {
+      if (this.currentIndex < 0) return ''
+
       return this.tabs.slice(0, this.currentIndex).join("")
     },
   },
@@ -104,19 +108,21 @@ li:last-child
   margin 0
   left: 0
   // background: rgba(255, 255, 255, 0);
-  transition: background .35s ease-out, transform 0s .35s;
+  // transition: background .35s ease-out, transform 0s .35s;
   transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   color: transparent
   pointer-events none
-  &::before
-    content: attr(data-prev)
-    display inline-block
+  // &::before
+  //   content: attr(data-prev)
+  //   display inline-block
+  //   background-color color
   .tab-line
     display inline-block
     height calc(100% + 3px)
     box-sizing border-box
     border-bottom 2px solid
     transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    // transform: translate3d(0,0,0);
 
 
 </style>

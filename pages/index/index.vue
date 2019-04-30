@@ -52,7 +52,7 @@
             )
             el-carousel-item(v-for='item, index in imagesSliders[1].images', :key='index')
               articleCard(v-bind="{url: qiniuDomain + item.uri + postfix, title: imagesSliders[1].title, time: imagesSliders[1].time, category: imagesSliders[1].category, id: String(imagesSliders[1].id)}")
-          .button.is-secondary.is-plain.round(@click="$router.push('/articles')") more...
+          .button.is-link.is-secondary.is-plain.round(@click="$router.push('/articles')") more...
         .home-main-content-video
           .content-title
             |视频作品
@@ -70,7 +70,7 @@
                   br
                   |{{video.desc}}
                   br
-                  .button.is-secondary.is-plain.round(@click="moreVideoClick(video)") more...
+                  .button.is-link.is-secondary.is-plain.round(@click="moreVideoClick(video)") more...
         .home-main-content-footer
           .content-title
             |内容策划与生产
@@ -284,19 +284,20 @@ export default {
     bottom 20%
     width 50%
     // background-stripe(rgba(0,0,0,.5), rgba(128, 132, 130, .5))
+    background-stripe(rgba(0,0,0,.5), rgba(132,132,132,1))
     color #fff
     text-align right
-    &::before
-      content ''
-      all inherit
-      background-image url('~assets/images/oblique_line.png')
-      background-size auto 100%
-      width 100%
-      height 100%
-      box-sizing border-box
-      bottom 0
-      z-index -1
-      opacity 0.67
+    // &::before
+    //   content ''
+    //   all inherit
+    //   background-image url('~assets/images/oblique_line.png')
+    //   background-size auto 100%
+    //   width 100%
+    //   height 100%
+    //   box-sizing border-box
+    //   bottom 0
+    //   z-index -1
+    //   opacity 0.67
 
     &-content
       display inline-block

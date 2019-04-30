@@ -46,7 +46,7 @@ export default {
   */
   plugins: [
     '@/plugins/element-ui',
-    { src: '@/plugins/vue-video-player.js', ssr: false },
+    // { src: '@/plugins/vue-video-player.js', ssr: false },
   ],
 
   /*
