@@ -55,6 +55,10 @@ function getQiniuUrl (fname, isMob) {
 
 export default {
   props: {
+    imgHeight: {
+      type: Number,
+      default: 250,
+    },
     imgs: { type: Array, default: () => [] }
   },
   data () {
@@ -96,7 +100,7 @@ export default {
   },
   methods: {
     genStyleOfItem ({width, height}) {
-      const flexGrow = width * 250 / height
+      const flexGrow = width * (this.imgHeight || 250) / height
       width = flexGrow + 'px'
       return [{ width, flexGrow }]
     },

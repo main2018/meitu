@@ -39,12 +39,25 @@ export default {
   $w = "calc((100% - (%s - 1) * %s) / %s)" % ($row-num $gap $row-num)
   // left "calc(50% - %s - %s)" % （arrow-a arrow-b） // 多个变量
   $n = $row-num'n'
+  $ratio = 2 / 3
   &-item
+    position relative
     flex: 0 0 $w
     width $w
-    height 200px
+    // height "calc((100% - (%s - 1) * %s) / %s * %s)" % ($row-num $gap $row-num $ratio)
     margin-bottom $gap
     // &:not(:nth-child({$n}))
+    &::before
+      content ''
+      padding-bottom "calc(100% * %s)" % $ratio
+      float left
+    &::after
+      content ''
+      display block
+      clear both
     &:not(:nth-child(4n))
       margin-right $gap
+    .article-card
+      position absolute
+      width 100%
 </style>

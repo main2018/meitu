@@ -123,6 +123,7 @@ li:last-child
     border-bottom 2px solid
     transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     // transform: translate3d(0,0,0);
+    will-change: transform
 
 
 </style>

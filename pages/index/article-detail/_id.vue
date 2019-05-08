@@ -5,7 +5,7 @@
       time.aw-category(v-show="!isSubpage") {{time}}
         span(v-if="article.subcategory")  &nbsp;| {{article.subcategory.subcategory}}
       p.aw-desc {{article.desc}}
-    gallery(:imgs="getList('images')")
+    gallery(:imgHeight="site.imgHeight" :imgs="getList('images')")
     .article-detail-videos
       .article-detail-videos-item(v-for="video in getList('videos')")
         videoPlayer(:src="video.uri")
@@ -73,7 +73,8 @@ export default {
         isSubpage = item.isSubpage
       })
       return isSubpage
-    }
+    },
+    site() { return this.$store.state.site },
   },
   mounted() {
     if (!this.article) this.$message.error('文章不存在')

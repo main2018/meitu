@@ -1,10 +1,12 @@
 <template lang="pug">
   .page
+    empty(v-show="!articles.length")
     articleList(:articles="articles")
 </template>
 
 <script>
 import articleList from '~/components/article-list'
+import empty from '~/components/empty'
 
 import { getArticleByCategory } from '~/api/article'
 
@@ -26,6 +28,7 @@ export default {
     return routers.includes(id)
   },
   components: {
+    empty,
     articleList,
   },
   async asyncData({ params, store }) {
