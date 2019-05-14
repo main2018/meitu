@@ -17,7 +17,7 @@
           .carousel-item-info
             .carousel-item-info-content
               .carousel-item-info-title {{item.title}}
-              .carousel-item-info-subtitle {{item.desc}}
+              .carousel-item-info-subtitle(:title="item.desc") {{item.desc}}
       i.carousel-arrow-left.el-icon-arrow-left(@click="changeCarousel(-1)" v-show="commends.length > 1")
       i.carousel-arrow-right.el-icon-arrow-right(@click="changeCarousel(1)" v-show="commends.length > 1")
     .home-main
@@ -94,7 +94,7 @@
                 .cover: .background(:style='{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}')
                 .title {{item.title}}
                 pre
-                  |{{item.desc}}
+                  |{{item.desc}}用专业的态度和技术用专业的态度和技术用专业的态度和技术
 
 
 
@@ -284,25 +284,26 @@ export default {
     bottom 20%
     width 50%
     // background-stripe(rgba(0,0,0,.5), rgba(128, 132, 130, .5))
-    background-stripe(rgba(0,0,0,.5), rgba(132,132,132,1))
+    // background-stripe(rgba(0,0,0,.5), rgba(132,132,132,1))
     color #fff
     text-align right
-    // &::before
-    //   content ''
-    //   all inherit
-    //   background-image url('~assets/images/oblique_line.png')
-    //   background-size auto 100%
-    //   width 100%
-    //   height 100%
-    //   box-sizing border-box
-    //   bottom 0
-    //   z-index -1
-    //   opacity 0.67
+    &::before
+      content ''
+      all inherit
+      background-image url('~assets/images/oblique_line.png')
+      background-size auto 100%
+      width 100%
+      height 100%
+      box-sizing border-box
+      bottom 0
+      z-index -1
+      opacity 0.67
 
     &-content
       display inline-block
       text-align left
       width ($screen-width-max / 2)
+      font-size $font-size-medium
     &-title
       padding-bottom 3px
       display inline-block
@@ -311,6 +312,9 @@ export default {
     &-subtitle
       line-height 2
       font-size $font-size-small
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
 
 .home
   background #f6f7ff
@@ -325,10 +329,13 @@ export default {
       font-family sans-serif
       color $font-color-l
       background-color #fff
+      font-weight 600
       .button
+        padding 0 50px
         margin-bottom 10px
-        letter-spacing 1em
-        font-size $font-size-small
+        letter-spacing 5px
+        font-size $font-size
+        font-weight 200
     &-content
       $content-padding = 20px
       padding 20px $content-padding 100px
@@ -357,18 +364,20 @@ export default {
             height $height
             flex 0 0 w
         .button
-          margin 30px 50%
+          margin 30px 50% 0
           transform translateX(-50%)
+          font-size: $font-size-small-s
       .content-title
-        margin 50px 0
+        margin 80px 0 80px
         text-align center
-        font-size $font-size-small-s
+        // font-size $font-size-small
         white-space nowrap
         text-overflow ellipsis
         overflow hidden
         &:first-line
-          font-size $font-size-large
+          font-size $font-size-large-xx
           line-height 2.5
+          letter-spacing 5px
       &-footer
         margin 0 auto
         min-width 700px
@@ -381,12 +390,13 @@ export default {
               flex 1
               text-align center
               img
-                max-width 60px
+                width 150px
+                // max-width 400px
                 border-radius 50%
               .title
                 margin-bottom 20px
                 position relative
-                line-height 2
+                line-height 3
                 font-size $font-size-medium-x
                 color #378280
                 font-weight 600
@@ -401,10 +411,10 @@ export default {
               pre
                 font-size $font-size-small-s
           &-content
-            margin-top 100px
+            margin-top 50px
             display flex
             &-item
-              padding 10px
+              padding 10px 10px 50px
               flex 1
               overflow hidden
               border 1px solid #ccc
@@ -417,7 +427,7 @@ export default {
                 position relative
                 overflow hidden
                 padding-top 60%
-                margin-bottom 20px
+                margin-bottom 30px
                 background-color #ccc
               .background
                 position absolute
@@ -429,15 +439,16 @@ export default {
                 &:hover
                   transform scale(1.2)
               .title
-                margin-bottom 10px
                 line-height 2
-                border-bottom 1px solid #ccc
-                font-size $font-size-medium-x
+                font-size $font-size-medium
                 font-weight 600
               pre
+                padding-top 10px
+                margin-right calc(1 / 3 * 100%)
                 overflow hidden
                 text-overflow ellipsis
-                white-space nowrap
+                white-space pre-wrap
+                border-top 1px solid #ccc
       .content-box
         padding 0 20px
         // width calc(100vw - 20px * 2)
@@ -477,7 +488,7 @@ export default {
             margin-left $gap
             box-sizing border-box
             padding-left $gap
-            font-size $font-size-small-s
+            font-size $font-size
             text-align left
             .content-title
               display inline-block
@@ -487,9 +498,11 @@ export default {
               &-title
                 padding-right 20px
                 display inline-block
-                font-size $font-size-medium
+                font-size $font-size-medium-x
                 font-weight bold
                 border-bottom 1px solid
+                line-height 2.5
               .button
+                font-size $font-size-small-s
                 margin-top 30px
 </style>

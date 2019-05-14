@@ -91,10 +91,14 @@ li {
   display: inline-block;
   position: relative;
   height: 100%;
-  font: 1rem/3 trebuchet ms, verdana, century gothic, arial, sans-serif;
+  font: 1rem/3 trebuchet ms;
+  // font-family PingFangSC-Regular
   text-transform: uppercase;
   cursor: pointer;
   text-align: center;
+  font-weight 100
+  font-size 14px
+  text-align:justify;
 }
 
 // li:nth-child(9):hover ~ li:last-child {

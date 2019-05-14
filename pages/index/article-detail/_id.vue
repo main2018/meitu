@@ -92,17 +92,17 @@ export default {
 <style lang='stylus' rel='stylesheet/stylus'>
 .article-detail
   .aw-article
-    padding 15px
+    padding 45px 15px 15px
     .aw-category
       font-size .5rem
       color #888
     .aw-desc
       text-indent 2em
-      font-size 1rem
+      font-size $font-size-small
       color #888
       line-height 2rem
     .aw-title
-      font-size 1.2rem
+      font-size $font-size-large-x
       font-weight 700
   &-videos
     display flex

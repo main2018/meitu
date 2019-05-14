@@ -13,13 +13,15 @@
           img(src="qrcode")
         .wechat-content
           .wechat
-            img(src="~/assets/images/icon-wechat.gif")
+            .wechat-box
+              img.wechat-box-wechat(src="~/assets/images/icon-wechat.gif")
+              img.wechat-box-qrcode(src="~/assets/images/qrcode.jpeg")
             .wechat-text @foto2.cn
             .wechat-note on wechat
-          .tips
-            img(src="~/assets/images/qrcode.png")
+
     .copyright
-      span.text Copyright© Hainan Meitu Culture Communication Co,.Ltd. All RightSReserved
+      span.text Copyright © Hainan Meitu Culture Communication Co,.Ltd. All RightSReserved
+      a(href="http://www.beian.miit.gov.cn" style="color: #666;" target="_blank") &emsp;琼ICP备10200620号-1
 </template>
 
 <script>

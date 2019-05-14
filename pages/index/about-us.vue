@@ -41,7 +41,7 @@ export default {
   async asyncData({ store, route }) {
     const categorys = store.state.categorys
     const path = route.path.substr(1)
-    // const 
+    // const
     const currentIndex = routers.findIndex(router => path === Object.keys(router)[0]) + categorys.length
 
     store.commit('SET_CURRENT_INDEX', currentIndex)
@@ -68,6 +68,7 @@ export default {
   $padding-y = 50px
   color $font-color-l
   $border-width = 5px
+  font-size $font-size-small
   .follow-nav
     margin 0 auto
     max-width $screen-width-max
@@ -90,14 +91,15 @@ export default {
         line-height 2
       img
         margin-left 100px
-        max-width 200px
+        width 300px
   &-content
     position relative
-    padding-bottom 50px
+    padding 10px 0 50px
     .background
       height 30vw
-      margin-left 10%
-      width 80%
+      // margin-left 5%
+      // width 95%
+      background-size: contain;
     &::before
       content ''
       position absolute
@@ -113,24 +115,27 @@ export default {
       z-index 1
       margin 50px 0
       text-align center
-      font-size $font-size-small-s
+      // font-size $font-size-small-s
       white-space nowrap
       text-overflow ellipsis
       overflow hidden
-      font-weight 600
+      // font-weight 600
       letter-spacing .2em
       &:first-line
-        font-size $font-size-medium-x
+        font-size $font-size-large-xx
         line-height 2.5
-      
+
   &-footer
     padding 20px 0 50px
     &-content
       margin-left $border-width
       display flex
       align-items flex-start
+      justify-content space-between;
       img
+        margin-top -42px
         margin-left 20px
+        float right
         max-width 250px
       .address
         margin-top 30px

@@ -9,7 +9,7 @@
 .text
   color #aaa
   // font-size .58rem
-  font-size $font-size-small
+  font-size $font-size-small-s
   line-height 1.2rem
 .title
   color #fff
@@ -20,14 +20,14 @@
   font-size .5rem
 .line
   width 7.5rem
-  margin-bottom .2rem
+  margin-bottom 20px
   height: 2px
   background-color: red
 
 .qrcode
   margin-right 2rem
   flex 1
-  text-align right 
+  text-align right
   .text
     text-align right
   img
@@ -38,23 +38,33 @@
   margin-right 2rem
   position: relative
   flex 1
-  text-align right 
+  text-align right
   .wechat-text
     font-size: .9rem
   .wechat-note
     color #888
     font-size: .5rem
   .wechat
-    position: absolute
-    right: 0
+    float right
     top: -1rem
-    text-align left
+    text-align center
+    &-box
+      margin-bottom 5px
+      position relative
+    &-box-qrcode
+      position: absolute
+      left 0
+      bottom 0
+      width 4rem!important
+      display: none
+      border-radius: 0!important
+      border 5px solid #fff
     &:hover
-      &~.tips
+      .wechat-box-qrcode
         display: block
-      
+
     img
-      margin-left 10px
+      // margin-left 10px
       width 3.5rem
       border-radius: 50%
   .tips
