@@ -75,43 +75,49 @@ export default {
 
 <style lang="stylus" scoped>
 .nav
-  padding-top 12px
+  padding 15px 0
   display flex
   height 48px
-  line-height 48px
   color #ffffff
   margin: 0 auto
+  font-size $font-size-small
   &-container
     background-color $color-bg
   &-logo
     margin-right 1.5rem
     // height inherit
     // padding: 5px 0;
-    height: calc(100% - 10px);
+    height: 100%
     cursor: pointer;
   .tabs
-    margin 0 50px 10px 20px
+    margin 0 50px 0 20px
     flex 1
 
   &-search
     position relative
+    display flex
+    align-items flex-end
     width 9.4rem
     align-self flex-end
+    $color = #7e8c8d
     input
       padding .2rem
       width 8rem
       margin-right 1rem
       background none
-      border-bottom 1px solid #eee
+      border-bottom 1px solid $color
       color #fff
       outline none
       &:focus ~ .focus-border
         width: calc(100% - 1rem)
         transition: 0.4s
         left: 0
+      &:focus ~ .nav-search-bar
+        color #fff
     .focus-border
       position: absolute
-      bottom: calc((48px - .2rem * 2 - 18px - 4px) / 2)
+      // bottom: calc((48px - .2rem * 2 - 18px - 4px) / 2)
+      bottom: 0
       left: 50%
       width: 0
       height: 2px
@@ -121,9 +127,9 @@ export default {
       position absolute
       right 1.2rem
       bottom 0
-      color #eee
-    .mdi
-      color #aaa
+      color $color
+    // .mdi
+    //   color #aaa
 
 
 // @media only screen and (max-width: 1599px) and (min-width: 1024px)

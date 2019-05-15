@@ -5,7 +5,7 @@
       v-for="tab, index in tabs"
       :style="[liStyle, currentIndex === index ? activeStyle: {}, {marginRight: index === tabs.length - 1 ? 0 : `${gap}px`}]"
       @click="currentIndex = index; $emit('input', index); $emit('change', index)"
-      ) {{tab}}
+      ): span {{tab}}
 
     li(:data-prev="prevData")
       span {{prevData}}
@@ -88,17 +88,19 @@ ul {
   font-size: 0;
 }
 li {
-  display: inline-block;
+  display: inline-flex;
+  align-items flex-end
   position: relative;
   height: 100%;
-  font: 1rem/3 trebuchet ms;
+  font: 14px trebuchet ms;
   // font-family PingFangSC-Regular
   text-transform: uppercase;
   cursor: pointer;
   text-align: center;
   font-weight 100
-  font-size 14px
+  // font-size 14px
   text-align:justify;
+  line-height 1
 }
 
 // li:nth-child(9):hover ~ li:last-child {
@@ -116,14 +118,14 @@ li:last-child
   transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   color: transparent
   pointer-events none
+  height calc(100% + 3px)
   // &::before
   //   content: attr(data-prev)
   //   display inline-block
   //   background-color color
   .tab-line
     display inline-block
-    height calc(100% + 3px)
-    box-sizing border-box
+    height 100%
     border-bottom 2px solid
     transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     // transform: translate3d(0,0,0);

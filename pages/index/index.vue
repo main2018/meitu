@@ -31,7 +31,7 @@
             arrow="never"
             indicator-position="none"
             trigger='click'
-            height='300px'
+            :height='`${CONTENT_HEAD_HEIGHT * 0.6}px`'
             )
             el-carousel-item(v-for='item, index in imagesSliders[0].images', :key='index')
               .background
@@ -107,6 +107,10 @@ import { qiniuDomain, postfix } from '~/config/qiniu'
 
 import { getArticles } from '~/api/article'
 
+const RADIO = 1.6 / 1
+const CONTENT_HEAD_WIDTH = 980
+const CONTENT_HEAD_HEIGHT = CONTENT_HEAD_WIDTH / RADIO
+
 export default {
   components: {
     videoPlayer,
@@ -120,6 +124,7 @@ export default {
   },
   data() {
     return {
+      CONTENT_HEAD_HEIGHT,
       postfix,
       qiniuDomain,
       videos: [
@@ -340,18 +345,20 @@ export default {
       $content-padding = 20px
       padding 20px $content-padding 100px
       &-header
+        $ratio = 1.6 / 1
+
         margin 0 auto
         display flex
         flex-wrap wrap
-        min-width 700px
-        width 60vw
+        width 980px
+        height (@width/$ratio)
         $gap = 1%
         $height = 300px
         &-carousel
           flex 0 0 70%
           width 70%
           .background
-            height $height
+            height (@width/$ratio)
         &-item
           flex 0 0 ((100% - $gap * 2) / 3)
           height ($height * 0.6)
@@ -505,4 +512,8 @@ export default {
               .button
                 font-size $font-size-small-s
                 margin-top 30px
+
+// @media only screen and (min-width: 1024px)
+//   .home-main-content-header
+//     width $screen-width-max
 </style>
