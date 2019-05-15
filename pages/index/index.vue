@@ -31,7 +31,7 @@
             arrow="never"
             indicator-position="none"
             trigger='click'
-            :height='`${CONTENT_HEAD_HEIGHT * 0.6}px`'
+            :height='`${(CONTENT_HEAD_HEIGHT - GAP) * RADIO_Y}px`'
             )
             el-carousel-item(v-for='item, index in imagesSliders[0].images', :key='index')
               .background
@@ -48,7 +48,7 @@
             arrow="never"
             indicator-position="none"
             trigger='click'
-            :height="`${300 * 0.6}px`"
+            :height="`${(CONTENT_HEAD_HEIGHT - GAP) * (1 - RADIO_Y)}px`"
             )
             el-carousel-item(v-for='item, index in imagesSliders[1].images', :key='index')
               articleCard(v-bind="{url: qiniuDomain + item.uri + postfix, title: imagesSliders[1].title, time: imagesSliders[1].time, category: imagesSliders[1].category, id: String(imagesSliders[1].id)}")
@@ -108,6 +108,8 @@ import { qiniuDomain, postfix } from '~/config/qiniu'
 import { getArticles } from '~/api/article'
 
 const RADIO = 1.6 / 1
+const RADIO_Y = 0.6
+const GAP = 10
 const CONTENT_HEAD_WIDTH = 980
 const CONTENT_HEAD_HEIGHT = CONTENT_HEAD_WIDTH / RADIO
 
@@ -125,6 +127,8 @@ export default {
   data() {
     return {
       CONTENT_HEAD_HEIGHT,
+      RADIO_Y,
+      GAP,
       postfix,
       qiniuDomain,
       videos: [
@@ -345,31 +349,34 @@ export default {
       $content-padding = 20px
       padding 20px $content-padding 100px
       &-header
+        $width = 980px
         $ratio = 1.6 / 1
+        $radio-x = 5 / 7
+        $gap = 10px
 
         margin 0 auto
         display flex
         flex-wrap wrap
-        width 980px
-        height (@width/$ratio)
-        $gap = 1%
+        width $width
+        height ($width/$ratio)
         $height = 300px
         &-carousel
-          flex 0 0 70%
-          width 70%
+          flex 0 0 "calc((100% - %s) * %s)" % ($gap $radio-x)
+          // width 70%
           .background
-            height (@width/$ratio)
+            height 100%
         &-item
-          flex 0 0 ((100% - $gap * 2) / 3)
-          height ($height * 0.6)
+          // flex 0 0 ((100% - $gap * 2) / 3)
+          flex-basis "calc((100% - %s * 2) / 3)" % $gap
+          height "calc((%s / %s - %s) * (1- 0.6))" % ($width $ratio $gap)
           margin-top $gap
           &:not(:nth-child(3))
             margin-left $gap
           &:nth-child(2)
             margin-top 0
-            width w=(30% - $gap)
-            height $height
-            flex 0 0 w
+            width "calc((100% - %s) * (1 - %s))" % ($gap $radio-x)
+            height "calc((%s / %s - %s) * 0.6)" % ($width $ratio $gap)
+            flex 0 0 @width
         .button
           margin 30px 50% 0
           transform translateX(-50%)

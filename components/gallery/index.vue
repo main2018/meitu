@@ -1,12 +1,13 @@
 <template lang="pug">
   section
-    .img-item(v-for="(img, index) in images" :style="genStyleOfItem(img)")
-      i(:style="genStyleOfDomI(img)")
-      img(
-        :alt="index"
-        :src="img.url || (qiniuDomain + img.uri)"
-        @click="preview(index)"
-        )
+    //- .img-item(v-for="(img, index) in images" :style="genStyleOfItem(img)")
+    //-   i(:style="genStyleOfDomI(img)")
+    //-   img(
+    //-     :alt="index"
+    //-     :src="img.url || (qiniuDomain + img.uri)"
+    //-     @click="preview(index)"
+    //-     )
+    img(v-for="(img, index) in images" :src="img.url || (qiniuDomain + img.uri)" @click="preview(index)")
     .viewer(v-show="isViewrShow" @click="close")
       .mask
       // .mdi.mdi-36px.mdi-close(@click="close")
@@ -160,6 +161,9 @@ section
   &::after
     content: ''
     flex-grow: 999999999
+  &>img
+    width 100%
+    margin-bottom 20px
   .img-item
     position: relative
     flex-grow: 1

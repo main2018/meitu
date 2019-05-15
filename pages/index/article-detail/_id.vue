@@ -91,8 +91,10 @@ export default {
 
 <style lang='stylus' rel='stylesheet/stylus'>
 .article-detail
+  width 980px
+  margin 0 auto
   .aw-article
-    padding 45px 15px 15px
+    padding 45px 0 15px
     .aw-category
       font-size .5rem
       color #888
