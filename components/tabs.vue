@@ -2,14 +2,14 @@
 
   ul.tabs
     li(
-      v-for="tab, index in tabs"
+      v-for="tab, index in normalizeTabs"
       :style="[liStyle, currentIndex === index ? activeStyle: {}, {marginRight: index === tabs.length - 1 ? 0 : `${gap}px`}]"
       @click="currentIndex = index; $emit('input', index); $emit('change', index)"
-      ): span {{tab}}
+      ): span(v-html="tab")
 
     li(:data-prev="prevData")
-      span {{prevData}}
-      .tab-line(:style="lineStyle") {{tabs[currentIndex]}}
+      span(v-html="prevData")
+      .tab-line(:style="lineStyle" v-html="normalizeTabs[currentIndex]")
 </template>
 
 <script>
@@ -49,6 +49,19 @@ export default {
     }
   },
   computed: {
+    normalizeTabs() {
+      const reg = /^[\u4e00-\u9fa5]*$/
+      const max = Math.max(...this.tabs.filter(tab => reg.test(tab)).map(tab => tab.length))
+      const res = this.tabs.map(tab => {
+        if (!reg.test(tab)) return tab
+        if (tab.length < max) {
+          const mark = tab.length <= max / 2 ? '&emsp;' : '&nbsp;'
+          return tab.split('').join(mark)
+        }
+        else return tab
+      })
+      return res
+    },
     liStyle() {
       return {
         color: this.color,
@@ -71,8 +84,11 @@ export default {
     prevData() {
       if (this.currentIndex < 0) return ''
 
-      return this.tabs.slice(0, this.currentIndex).join("")
+      return this.normalizeTabs.slice(0, this.currentIndex).join("")
     },
+  },
+  created() {
+    console.log('normalizeTabs', this.normalizeTabs)
   },
 }
 </script>
@@ -118,7 +134,7 @@ li:last-child
   transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   color: transparent
   pointer-events none
-  height calc(100% + 3px)
+  height calc(100% + 5px)
   // &::before
   //   content: attr(data-prev)
   //   display inline-block

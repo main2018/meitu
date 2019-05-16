@@ -23,7 +23,8 @@
           |{{about.email}}
 
           .address {{about.address}}
-        img(:src="qiniuDomain + about.map + postfix")
+        //- img(:src="qiniuDomain + about.map + postfix")
+        img(:src="generateMapUrl(about.map)")
 
 </template>
 
@@ -33,6 +34,7 @@ import carousel from '~/components/carousel'
 import { getAbout } from '~/api/site'
 import { routers } from '~/config/router'
 import { qiniuDomain, postfix } from '~/config/qiniu'
+import { generateMapUrl } from '~/assets/js/map'
 
 export default {
   components: {
@@ -54,6 +56,7 @@ export default {
   },
   data() {
     return {
+      generateMapUrl,
       qiniuDomain,
       postfix,
     }
@@ -136,7 +139,6 @@ export default {
         margin-top -42px
         margin-left 20px
         float right
-        max-width 250px
       .address
         margin-top 30px
 </style>
