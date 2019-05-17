@@ -79,12 +79,13 @@
           .content-main
             .content-main-header
               .content-main-header-item(
-                v-for=" item, index in footers"
+                v-for=" item, index in types"
                 )
-                img(:src="require(`~/assets/images/bottom${index + 1}.png`)")
+                //- img(:src="require(`~/assets/images/bottom${index + 1}.png`)")
+                img(:src="qiniuDomain + item.icon")
                 .title {{item.title}}
                 pre
-                  span(v-for="text in item.desc") {{text}}
+                  span(v-for="text in item.texts") {{text}}
                     br
             .content-main-content
               .content-main-content-item(
@@ -211,6 +212,19 @@ export default {
       return contentTops.concat(this.images).splice(0, 3)
     },
     categorys() { return this.$store.state.categorys },
+    site() { return this.$store.state.site },
+    types() {
+      if (!this.site || !this.site.type) return []
+      return this.site.type.map(item => {
+        // const texts = (item.text || '').split(' ')
+        const texts = (item.text || '').split(/\n/).map(item => item.trim())
+        return {
+          icon: item.icon,
+          title: item.title,
+          texts,
+        }
+      })
+    },
   },
 
   methods: {
@@ -406,7 +420,7 @@ export default {
               img
                 width 150px
                 // max-width 400px
-                border-radius 50%
+                // border-radius 50%
               .title
                 margin-bottom 20px
                 position relative

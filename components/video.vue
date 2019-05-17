@@ -257,6 +257,8 @@ pause(w=50px, border-w=2px)
     // width: 100%;
     // height: 100%; 
     object-fit: cover;
+    // background-color: #000;
+    // mix-blend-mode: screen;
   &-play
     player()
     position absolute
