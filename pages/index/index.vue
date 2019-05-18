@@ -15,6 +15,7 @@
         .carousel-item-container(@click="$router.push(`/article-detail/${item.id}`)")
           .background(:style="{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}")
           .carousel-item-info
+            .carousel-item-info-bg
             .carousel-item-info-content
               .carousel-item-info-title {{item.title}}
               .carousel-item-info-subtitle(:title="item.desc") {{item.desc}}
@@ -310,10 +311,12 @@ export default {
     // background-stripe(rgba(0,0,0,.5), rgba(132,132,132,1))
     color #fff
     text-align right
-    &::before
+    // &::before
+    &-bg
       content ''
       all inherit
       background-image url('~assets/images/oblique_line.png')
+      // background-image url('~assets/images/oblique_line.gif')
       background-size auto 100%
       width 100%
       height 100%
