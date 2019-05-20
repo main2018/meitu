@@ -103,7 +103,7 @@ ul {
   // max-width: 1600px;
   font-size: 0;
 }
-li {
+li
   display: inline-flex;
   align-items flex-end
   position: relative;
@@ -117,7 +117,8 @@ li {
   // font-size 14px
   text-align:justify;
   line-height 1
-}
+  &:hover
+    color #fff!important
 
 // li:nth-child(9):hover ~ li:last-child {
 //   transform: translate(800%);

@@ -1,5 +1,5 @@
 <template lang="pug">
-  section
+  section.gallery
     //- .img-item(v-for="(img, index) in images" :style="genStyleOfItem(img)")
     //-   i(:style="genStyleOfDomI(img)")
     //-   img(
@@ -155,7 +155,7 @@ export default {
 
 <style lang="stylus" scoped>
 $mask-bg = rgba(128, 128, 128, 0.9)
-section
+.gallery
   display: flex
   flex-wrap: wrap
   &::after
@@ -163,6 +163,9 @@ section
     flex-grow: 999999999
   &>img
     width 100%
+    flex-shrink: 0;
+    // height: 100%;
+    align-self flex-start
     margin-bottom 20px
   .img-item
     position: relative

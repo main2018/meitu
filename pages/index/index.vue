@@ -495,7 +495,10 @@ export default {
           &-video
             position relative
             &-bg
-              background-stripe()
+              background-image url('~assets/images/oblique_line_white.png')
+              background-size auto 90px
+              opacity 0.67
+              // background-stripe()
               position absolute
               left $gap
               top $gap

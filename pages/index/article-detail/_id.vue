@@ -107,16 +107,8 @@ export default {
       font-size $font-size-large-x
       font-weight 700
   &-videos
-    display flex
-    flex-wrap wrap
-    justify-content center
-    $gap = 0
     &-item
-      padding 2px
-      box-sizing border-box
-      flex 0 0 ((100% - $gap) / 2)
-      &:nth-child(even)
-        margin-left $gap
+      margin-bottom: 20px;
   &-article
     padding 2px
     text-align center

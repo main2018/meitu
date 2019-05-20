@@ -24,12 +24,14 @@
 
           .address {{about.address}}
         //- img(:src="qiniuDomain + about.map + postfix")
-        img(:src="generateMapUrl(about.map)")
+        amap(:location="about.map")
+        //- img(:src="generateMapUrl(about.map)")
 
 </template>
 
 <script type='text/ecmascript-6'>
 import carousel from '~/components/carousel'
+import amap from '~/components/map'
 
 import { getAbout } from '~/api/site'
 import { routers } from '~/config/router'
@@ -39,6 +41,7 @@ import { generateMapUrl } from '~/assets/js/map'
 export default {
   components: {
     carousel,
+    amap,
   },
   async asyncData({ store, route }) {
     const categorys = store.state.categorys
@@ -141,4 +144,5 @@ export default {
         float right
       .address
         margin-top 30px
+
 </style>
