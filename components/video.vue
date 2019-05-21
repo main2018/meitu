@@ -3,8 +3,8 @@
   video(
     ref="video" 
     preload="true"
-    :src="qiniuDomain + src" 
-    :poster="qiniuDomain + src + videoCover"
+    :src="formatSrc" 
+    :poster="formatSrc + videoCover"
     @click="video.pause()"
     @mouseenter="mouseEnter"
     )
@@ -65,6 +65,13 @@ export default {
   watch: {
   },
   created() {},
+  computed: {
+    formatSrc() {
+      const reg = /^http/
+      const isFull = reg.test(this.src)
+      return isFull ? this.src : qiniuDomain + this.src
+    },
+  },
   mounted() {
     this.video = this.$refs.video
     this.watchVideo()

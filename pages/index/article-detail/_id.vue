@@ -8,7 +8,7 @@
     gallery(:imgHeight="site.imgHeight" :imgs="getList('images')")
     .article-detail-videos
       .article-detail-videos-item(v-for="video in getList('videos')")
-        videoPlayer(:src="video.uri")
+        videoPlayer(:src="video.url || (qiniuDomain + video.uri)")
     .article-detail-article(v-html="article.article")
 </template>
 

@@ -88,7 +88,6 @@ export default {
     },
   },
   created() {
-    console.log('normalizeTabs', this.normalizeTabs)
   },
 }
 </script>

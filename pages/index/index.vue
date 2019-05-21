@@ -61,7 +61,7 @@
             |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
 
           .content-box
-            .content-box-item(v-for="video in videoTops")
+            .content-box-item(v-for="video in videosArr")
               .content-box-item-video
                 .content-box-item-video-bg
                 video-player(:src="video && video.video" :hoverPlay="true")
@@ -107,7 +107,7 @@ import videoPlayer from '~/components/video'
 import articleCard from '~/components/article-card'
 import { qiniuDomain, postfix } from '~/config/qiniu'
 
-import { getArticles } from '~/api/article'
+import { getArticles, getArticle } from '~/api/article'
 
 const RADIO = 1.6 / 1
 const RADIO_Y = 0.6
@@ -172,6 +172,7 @@ export default {
           ]
         },
       ],
+      videosArr: null,
     }
   },
   computed: {
@@ -227,6 +228,10 @@ export default {
       })
     },
   },
+  async created() {
+    const videos = await this.getVideoTops()
+    this.videosArr = videos
+  },
 
   methods: {
     moreVideoClick(obj) {
@@ -239,6 +244,29 @@ export default {
     changeCarousel(num) {
       const api = num === -1 ? 'prev' : 'next'
       this.$refs.carousel[api]()
+    },
+    async getVideoTops() {
+      const videoTops = this._normalizeArticles('isVideoTop')
+      let resultArr = [...videoTops]
+      resultArr.length = 2
+      const obj = Object.assign({}, this.images[0], {
+        video: this.videos[0]
+      })
+      resultArr.fill(obj, videoTops.length, 2)
+
+      const pArr = []
+      resultArr = resultArr.filter(item => {
+        if (!item.video) pArr.push(getArticle(item.id))
+        return !!item.video
+      })
+      const pRes = await Promise.all(pArr)
+      pRes.map(item => {
+        const videoObj = (item && item.videos && item.videos[0]) || {}
+        const video = videoObj.url || (qiniuDomain + videoObj.uri)
+        item.video = video
+        return item
+      })
+      return resultArr.concat(pRes)
     },
     _normalizeArticles(type) {
       if (!this.articles) return []
