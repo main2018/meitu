@@ -5,11 +5,11 @@
       time.aw-category(v-show="!isSubpage") {{time}}
         span(v-if="article.subcategory")  &nbsp;| {{article.subcategory.subcategory}}
       p.aw-desc {{article.desc}}
-    gallery(:imgHeight="site.imgHeight" :imgs="getList('images')")
-    .article-detail-videos
+    gallery(:imgHeight="site.imgHeight" :imgs="getList('images')" v-show="article.hasImage")
+    .article-detail-videos(v-show="article.hasVideo")
       .article-detail-videos-item(v-for="video in getList('videos')")
         videoPlayer(:src="video.url || (qiniuDomain + video.uri)")
-    .article-detail-article(v-html="article.article")
+    .article-detail-article(v-html="article.article" v-show="article.hasArticle")
 </template>
 
 <script type='text/ecmascript-6'>
