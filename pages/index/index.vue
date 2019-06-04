@@ -64,7 +64,7 @@
             .content-box-item(v-for="video in videosArr")
               .content-box-item-video
                 .content-box-item-video-bg
-                video-player(:src="video && video.video" :hoverPlay="true")
+                video-player(:src="video && video.video")
               .content-box-item-info
                 .content-title
                   .content-title-title {{video.title}}

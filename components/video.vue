@@ -79,6 +79,8 @@ export default {
   },
   methods: {
     mouseEnter() {
+      if (!this.hoverPlay) return
+
       if (!this.playing) {
         this.video.play()
         this.timer = setTimeout(() => {
@@ -202,6 +204,8 @@ export default {
 </script>
 
 <style lang="stylus" socped>
+$ratio = 16 / 9
+
 player(w=50px)
   position relative
   width w
@@ -251,7 +255,7 @@ pause(w=50px, border-w=2px)
   &::before
     content ''
     display block
-    padding-top 60%
+    padding-top (100% / $ratio)
   video
     position: absolute;
     top: 50%;
