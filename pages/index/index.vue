@@ -247,17 +247,11 @@ export default {
     },
     async getVideoTops() {
       const videoTops = this._normalizeArticles('isVideoTop')
-      let resultArr = [...videoTops]
-      resultArr.length = 2
-      const obj = Object.assign({}, this.images[0], {
-        video: this.videos[0]
-      })
-      resultArr.fill(obj, videoTops.length, 2)
+      // resultArr.fill(obj, videoTops.length, 2)
 
       const pArr = []
-      resultArr = resultArr.filter(item => {
-        if (!item.video) pArr.push(getArticle(item.id))
-        return !!item.video
+      videoTops.forEach(item => {
+        pArr.push(getArticle(item.id))
       })
       const pRes = await Promise.all(pArr)
       pRes.map(item => {
@@ -266,7 +260,7 @@ export default {
         item.video = video
         return item
       })
-      return resultArr.concat(pRes)
+      return pRes
     },
     _normalizeArticles(type) {
       if (!this.articles) return []

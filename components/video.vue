@@ -261,15 +261,18 @@ pause(w=50px, border-w=2px)
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    min-width: 100%; 
+    // min-width: 100%; 
+    width: 100%;
     min-height: 100%; 
-    width: auto;
+    // width: auto;
     height: auto;
     // width: 100%;
     // height: 100%; 
     object-fit: cover;
     // background-color: #000;
     // mix-blend-mode: screen;
+    &:fullscreen
+      transform translate(0, 0)
   &-play
     player()
     position absolute
