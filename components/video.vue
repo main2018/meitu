@@ -160,7 +160,7 @@ export default {
         this.playing = true
       })
       this.video.addEventListener('canplay', () => {
-        console.log('oncanplay')
+        // console.log('oncanplay')
       })
       this.video.addEventListener('pause', () => {
         this.playing = false

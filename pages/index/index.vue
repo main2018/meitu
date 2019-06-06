@@ -236,8 +236,7 @@ export default {
   methods: {
     moreVideoClick(obj) {
       const category = obj && obj.category
-      const currentCategory = this.categorys.find(item => item.category === category) || {}
-      const route = currentCategory.route || 'Movies'
+      const route = category && category.route || ''
 
       this.$router.push(`/${route}`)
     },
