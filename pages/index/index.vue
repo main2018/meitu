@@ -428,6 +428,7 @@ export default {
         overflow hidden
         &:first-line
           font-size $font-size-large-xx
+          font-weight bold
           line-height 2.5
           letter-spacing 5px
       &-footer
