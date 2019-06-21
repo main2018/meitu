@@ -54,7 +54,7 @@ import { Promise, resolve, reject } from 'q';
       addMarker(center, address) {
         var icon = new AMap.Icon({
           size: new AMap.Size(30, 30),    // 图标尺寸
-          image: 'http://meitu.awoo.co/1561040398940marker.png',  // Icon的图像
+          image: 'http://img.tukeshare.com/NaNmarker.png',  // Icon的图像
           imageOffset: new AMap.Pixel(0, 0),  // 图像相对展示区域的偏移量，适于雪碧图等
           imageSize: new AMap.Size(30, 30)   // 根据所设置的大小拉伸或压缩图片
         })

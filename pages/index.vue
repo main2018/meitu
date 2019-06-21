@@ -4,36 +4,43 @@
       nav.nav
         img.nav-logo(:src="logo" @click="logoClick")
         tabs(:tabs="navs" @change="tabsChange" :value="currentIndex")
-        .nav-search
-          input(type="text" v-model="keyword")
-          .focus-border
-          .nav-search-bar
-            span.mdi.mdi-magnify.mdi-16px
-            span(v-show = '!keyword') 搜索
+        search(:datalist="searchRes" @input="search" @change="toArticleDetail")
     <nuxt-child v-bind="{categorys, routers}"/>
     inscribe(v-bind="site")
+    backtop
 
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
 import tabs from '~/components/tabs'
+import search from '~/components/search'
 import inscribe from '~/components/inscribe'
+import backtop from '~/components/backtop'
 import { qiniuDomain } from '~/config/qiniu'
+import { Searcher } from '~/utils'
 
 import { getSite } from '~/api/site'
+import { getArticles } from '~/api/article'
 import { routers } from '~/config/router'
 
 export default {
   components: {
     Logo,
     tabs,
+    search,
     inscribe,
+    backtop,
   },
   data() {
     return {
-      keyword: '',
+      searchRes: null,
     }
+  },
+  async asyncData() {
+    const articles = await getArticles()
+
+    return { articles: articles || [] }
   },
   async fetch({ store }) {
     const site = await getSite()
@@ -60,6 +67,17 @@ export default {
     currentIndex() { return this.$store.state.currentIndex },
   },
   methods: {
+    async search(query) {
+      const articles = this.articles || []
+      const titles = articles.map(article => article.title)
+      const res = Searcher.search(titles, query)
+      // const res = articles.filter(article => article.title.includes(query))
+      this.searchRes = res.slice(0, 10)
+    },
+    toArticleDetail(query) {
+      const article = this.articles.find(article => article.title === query) || {}
+      this.$router.push(`/article-detail/${article && article.id}`)
+    },
     logoClick() {
       this.$router.push('/')
       this.$store.commit('SET_CURRENT_INDEX', -1)
@@ -92,45 +110,6 @@ export default {
   .tabs
     margin 0 50px 0 20px
     flex 1
-
-  &-search
-    position relative
-    display flex
-    align-items flex-end
-    width 9.4rem
-    align-self flex-end
-    $color = #7e8c8d
-    input
-      padding .2rem
-      width 8rem
-      margin-right 1rem
-      background none
-      border-bottom 1px solid $color
-      color #fff
-      outline none
-      &:focus ~ .focus-border
-        width: calc(100% - 1rem)
-        transition: 0.4s
-        left: 0
-      &:focus ~ .nav-search-bar
-        color #fff
-    .focus-border
-      position: absolute
-      // bottom: calc((48px - .2rem * 2 - 18px - 4px) / 2)
-      bottom: 0
-      left: 50%
-      width: 0
-      height: 2px
-      background-color: $color-secondary
-      transition: 0.4s
-    &-bar
-      position absolute
-      right 1.2rem
-      bottom 0
-      color $color
-    // .mdi
-    //   color #aaa
-
 
 // @media only screen and (max-width: 1599px) and (min-width: 1024px)
 @media only screen and (min-width: 1024px)

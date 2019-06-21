@@ -106,6 +106,7 @@ export default {
       // margin-left 5%
       // width 95%
       background-size: contain;
+      mix-blend-mode: screen;
     &::before
       content ''
       position absolute

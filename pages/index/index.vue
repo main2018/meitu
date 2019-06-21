@@ -2,10 +2,10 @@
   .home
     el-carousel(
       ref="carousel"
-      :autoplay="false"
+      :autoplay="true"
       arrow="never"
       :indicator-position="commends > 1 ? '' : 'none'"
-      :interval="3000"
+      :interval="5000"
       trigger="click"
       height="40vw"
       class="carousel-box"
@@ -13,7 +13,8 @@
       // indicator-position="none"
       el-carousel-item(v-for="item, index in commends" :key="item.id")
         .carousel-item-container(@click="$router.push(`/article-detail/${item.id}`)")
-          .background(:style="{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}")
+          el-image(fit="cover" style="width: 100%; height: 40vw;" :key="item.id" :src="qiniuDomain + item.img + postfix")
+          //- .background(:style="{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}")
           .carousel-item-info
             .carousel-item-info-bg
             .carousel-item-info-content
