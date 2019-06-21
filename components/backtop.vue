@@ -96,6 +96,7 @@ export default {
 <style lang='stylus' rel='stylesheet/stylus' scoped>
 .backtop
   position: fixed
+  z-index 9999
   width w=20px
   height @width
   border-color #fff

@@ -5,7 +5,7 @@
       :autoplay="true"
       arrow="never"
       :indicator-position="commends > 1 ? '' : 'none'"
-      :interval="5000"
+      :interval="3000"
       trigger="click"
       height="40vw"
       class="carousel-box"
