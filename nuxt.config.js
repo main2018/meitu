@@ -96,9 +96,9 @@ export default {
     port: 8095, // default: 3000
     host: '0.0.0.0', // default: localhost
   },
-  // router: { // 配置所有页面渲染后滚动至顶部
-  //   scrollBehavior: function (to, from, savedPosition) {
-  //     return { x: 0, y: 0 }
-  //   }
-  // }
+  router: { // 配置所有页面渲染后滚动至顶部
+    scrollBehavior: function (to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    }
+  }
 }

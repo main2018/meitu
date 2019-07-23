@@ -11,7 +11,7 @@ import empty from '~/components/empty'
 import { getArticleByCategory } from '~/api/article'
 
 export default {
-  scrollToTop: true,
+  // scrollToTop: true,
   // 默认情况下，不会在查询字符串 query 更改时调用(asyncData, fetch, validate, layout, ...等方法),
   // watchQuery: true, // 监听所有query
   // watchQuery: ['query001'], // 监听所有query.query001

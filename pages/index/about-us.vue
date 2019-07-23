@@ -24,7 +24,7 @@
 
           .address {{about.address}}
         //- img(:src="qiniuDomain + about.map + postfix")
-        amap(:location="about.map")
+        amap(:location="about.map" :zoom="17")
         //- img(:src="generateMapUrl(about.map)")
 
 </template>
@@ -39,6 +39,7 @@ import { qiniuDomain, postfix } from '~/config/qiniu'
 import { generateMapUrl } from '~/assets/js/map'
 
 export default {
+  // scrollToTop: true,
   components: {
     carousel,
     amap,

@@ -9,7 +9,6 @@ import articleList from '~/components/article-list'
 import { getArticles } from '~/api/article'
 
 export default {
-  scrollToTop: true,
   components: {
     articleList
   },

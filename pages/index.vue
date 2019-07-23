@@ -92,6 +92,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.nav-container
+  position sticky
+  top 0
+  z-index 999
 .nav
   padding 15px 0
   display flex
