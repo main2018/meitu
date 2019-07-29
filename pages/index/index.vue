@@ -109,6 +109,7 @@ import articleCard from '~/components/article-card'
 import { qiniuDomain, postfix } from '~/config/qiniu'
 
 import { getArticles, getArticle } from '~/api/article'
+import { compare } from '~/utils'
 
 const RADIO = 1.6 / 1
 const RADIO_Y = 0.6
@@ -185,7 +186,8 @@ export default {
     },
     imagesTops() {
       const imagesTops = this._normalizeArticles('isImageTop')
-      return imagesTops.length >= 3 ? imagesTops : imagesTops.concat(this.images).splice(0, 3)
+      // return imagesTops.length >= 3 ? imagesTops : imagesTops.concat(this.images).splice(0, 3)
+      return imagesTops.concat(this.images).splice(0, 3)
     },
     imagesSliders() {
       const imagesSliders = this._normalizeArticles('isSliderTop')
@@ -264,7 +266,9 @@ export default {
     },
     _normalizeArticles(type) {
       if (!this.articles) return []
-      return this.articles.filter(article => article[type])
+
+      const list = this.articles.filter(article => article[type])
+      return list.sort(compare('updated', false))
     },
   }
 }
