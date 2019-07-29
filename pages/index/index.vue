@@ -186,6 +186,7 @@ export default {
     },
     imagesTops() {
       const imagesTops = this._normalizeArticles('isImageTop')
+      console.log('imagesTops', imagesTops)
       // return imagesTops.length >= 3 ? imagesTops : imagesTops.concat(this.images).splice(0, 3)
       return imagesTops.concat(this.images).splice(0, 3)
     },
