@@ -16,7 +16,7 @@ export default {
       { hid: 'description', name: 'description', content: '美图文化' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: 'http://meitu.awoo.co/1564450747473favicon.ico' },
       { rel: 'stylesheet', href: '//vjs.zencdn.net/7.3.0/video-js.min.css' },
     ],
     script: [
