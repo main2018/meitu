@@ -1,15 +1,18 @@
 <template lang="pug">
+// 自动播放，轮播10秒
 .video
   video(
     ref="video" 
     preload="true"
+    loop
+    muted
     :src="formatSrc" 
-    :poster="formatPoster"
-    @click="video.pause()"
-    @mouseenter="mouseEnter"
+    :style='loadedmetadata ? {} : {backgroundImage: `url(${formatPoster})`}'
+    @click="toggle"
     )
     //- source src="grass-in-the-wind-sma.mp4" type="video/mp4"
-  .video-play(@click="play" v-show="!playing")
+  .video-loading(v-if="!loadedmetadata"): loading
+  .video-play(v-else @click="play" v-show="!playing")
   .video-control
     .video-control-toggle(
       :class="playing ? 'video-control-pause' : 'video-control-play'"
@@ -29,10 +32,15 @@
 </template>
 
 <script>
+import loading from './loading'
+
 import { qiniuDomain, postfix, videoCover } from '~/config/qiniu'
 import { leftZero } from '~/utils'
 
 export default {
+  components: {
+    loading,
+  },
   props: {
     src: {
       type: String,
@@ -47,9 +55,9 @@ export default {
       type: [String, Number],
       default: 200,
     },
-    hoverPlay: {
-      type: Boolean,
-      default: false,
+    seconds: {
+      type: Number,
+      default: 5,
     },
   },
   data() {
@@ -57,9 +65,10 @@ export default {
       qiniuDomain,
 
       playing: false,
+      loadedmetadata: false,
       duration: 0,
       currentTime: 0,
-      timer: null,
+      timeupdate: null,
     }
   },
   watch: {
@@ -83,19 +92,10 @@ export default {
     this.video = this.$refs.video
     this.watchVideo()
     this.mouse = {}
-    console.log('poster', this.poster)
+
+    this.loopPlay()
   },
   methods: {
-    mouseEnter() {
-      if (!this.hoverPlay) return
-
-      if (!this.playing) {
-        this.video.play()
-        this.timer = setTimeout(() => {
-          this.video.pause()
-        }, 5000)
-      }
-    },
     videoFullscreen() {
       this.fullscreen(this.video)
     },
@@ -123,7 +123,6 @@ export default {
       }
     },
     mouseDown() {
-      console.log('mouseDown')
       this.mouse.active = true
 
       this.mouse.startX = event.offsetX
@@ -154,10 +153,25 @@ export default {
     play() {
       this.video.play()
       this.playing = true
-      clearTimeout(this.timer)
+    },
+    loopPlay() {
+      this.video.play()
+      // this.timer = setInterval(() => {
+      //   // this.video.pause()
+      //   this._setTime(0)
+      // }, this.seconds * 1000)
+
+      this.video.addEventListener('timeupdate', this.timeupdate = () => {
+        const currentTime = this.video.currentTime
+        const duration = this.video.duration
+        const seconds = Math.min(this.seconds, duration)
+
+        if (currentTime >= seconds) this._setTime(0)
+      })
     },
     watchVideo() {
       this.video.addEventListener('loadedmetadata', () => {
+        this.loadedmetadata = true
         const duration = this.$refs.video.duration
         this.duration = duration
       })
@@ -172,20 +186,24 @@ export default {
       })
       this.video.addEventListener('pause', () => {
         this.playing = false
+        this.video.removeEventListener('timeupdate', this.timeupdate)
       })
       this.video.addEventListener('playing', () => {
+        this.loadedmetadata = true
       })
       this.video.addEventListener('timeupdate', () => {
         const currentTime = this.video.currentTime
         this.currentTime = currentTime
       })
 
+      this.video.addEventListener('waiting', () => {
+        this.loadedmetadata = false
+      })
     },
     toggle() {
       this.playing = !this.playing
       const api = this.playing ? 'play' : 'pause'
       this.video[api]()
-      clearTimeout(this.timer)
     },
 
     _setTime(time) {
@@ -207,11 +225,13 @@ export default {
     var old_element = this.video
     var new_element = old_element.cloneNode(true)
     old_element.parentNode.replaceChild(new_element, old_element)
+
+    this.video.removeEventListener('timeupdate', this.timeupdate)
   },
 }
 </script>
 
-<style lang="stylus" socped>
+<style lang="stylus" scoped>
 $ratio = 16 / 9
 
 player(w=50px)
@@ -266,21 +286,27 @@ pause(w=50px, border-w=2px)
     padding-top (100% / $ratio)
   video
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    // min-width: 100%; 
-    width: 100%;
-    min-height: 100%; 
-    // width: auto;
-    height: auto;
-    // width: 100%;
-    // height: 100%; 
-    object-fit: cover;
-    // background-color: #000;
+    top 0
+    left 0
+    width 100%
+    height 100%
+    object-fit: contain;
+    background-position center
+    background-size cover
+    background-color #000
     // mix-blend-mode: screen;
     &:fullscreen
       transform translate(0, 0)
+    &::backdrop 
+      background-color: #fff;
+      background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee);
+      background-size: 16px 16px;
+      background-position: 0 0, 8px 8px;
+  &-loading
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
   &-play
     player()
     position absolute
@@ -344,175 +370,4 @@ pause(w=50px, border-w=2px)
       width w=30px
 
     
-</style>
-
-
-
-<!--<template lang="pug">
-  div(
-    :playsinline="playsinline"
-    @play="onPlayerPlay($event)"
-    @pause="onPlayerPause($event)"
-    @ended="onPlayerEnded($event)"
-    @loadeddata="onPlayerLoadeddata($event)"
-    @waiting="onPlayerWaiting($event)"
-    @playing="onPlayerPlaying($event)"
-    @timeupdate="onPlayerTimeupdate($event)"
-    @canplay="onPlayerCanplay($event)"
-    @canplaythrough="onPlayerCanplaythrough($event)"
-    @ready="playerReadied"
-    @statechanged="playerStateChanged($event)"
-    v-video-player:player="playerOptions"
-  )
-</template>
-
-<script>
-import { qiniuDomain, postfix, videoCover } from '~/config/qiniu'
-
-export default {
-  props: {
-    src: {
-      type: String,
-      default: '1555895161705wewillrockyou%E6%B3%95%E5%9B%BD%E4%BE%9D%E4%BA%91%E7%9F%BF%E6%B3%89%E6%B0%B4%E5%B9%BF%E5%91%8A_%E6%A0%87%E6%B8%85.mp4'
-    },
-    width: {
-      type: [String, Number],
-      default: 300,
-    },
-    height: {
-      type: [String, Number],
-      default: 200,
-    },
-    hoverPlay: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      // component options
-      playsinline: true,
-
-      // videojs options
-      playerOptions: {
-        width: this.width,
-        height: this.height,
-        // autoplay: false,
-        // preload: 'auto',
-        preload: 'meta',
-        muted: true, // 必须静音才能执行play，不然报错
-        language: 'zh-CN',
-        // playbackRates: [0.7, 1.0, 1.5, 2.0],
-        // fill: true,
-        fluid: true,
-        sources: [{
-          // type: "video/mp4",
-          src: qiniuDomain + this.src,
-          // src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-        }],
-        controls: true,
-        controlBar: {
-          // timeDivider: true,
-          // durationDisplay: true,
-          // currentTimeDisplay: true,
-          // fullscreenToggle: true,
-          // playbackRateMenuButton: false,
-          // volumeControl: false,
-          children: [
-            'playToggle',
-            {name: 'currentTimeDisplay'}, // 当前已播放时间
-            'progressControl',
-            // {
-            //     name: 'timeDivider',
-            // },
-            {name: 'durationDisplay'}, // 总时间
-            {
-                name: 'volumePanel',
-                inline: false,
-            },
-            'fullscreenToggle',
-          ],
-        },
-        poster: `${qiniuDomain + this.src + videoCover}`,
-      }
-    }
-  },
-  mounted() {
-    let timer = null
-
-    if (!this.hoverPlay) return
-    this.player.on('mouseenter', function() {
-      const paused = this.paused()
-      if (paused) {
-        this.play()
-        timer = setTimeout(() => {
-          this.pause()
-        }, 5000)
-      }
-    })
-    this.player.controlBar.playToggle.on("click", function () {
-      clearTimeout(timer)
-    })
-  },
-  methods: {
-    // listen event
-    onPlayerPlay(player) {
-      // console.log('player', player)
-      // console.log('player play!', player)
-    },
-    onPlayerPause(player) {
-      // console.log('player pause!', player)
-    },
-    onPlayerEnded(player) {
-      // console.log('player ended!', player)
-    },
-    onPlayerLoadeddata(player) {
-      // console.log('player Loadeddata!', player)
-    },
-    onPlayerWaiting(player) {
-      // console.log('player Waiting!', player)
-    },
-    onPlayerPlaying(player) {
-      // console.log('player Playing!', player)
-    },
-    onPlayerTimeupdate(player) {
-      // console.log('player Timeupdate!', player.currentTime())
-    },
-    onPlayerCanplay(player) {
-      // player.play()
-      // console.log('player Canplay!', player)
-    },
-    onPlayerCanplaythrough(player) {
-      // console.log('player Canplaythrough!', player)
-    },
-    // or listen state event
-    playerStateChanged(playerCurrentState) {
-      // console.log('player current update state', playerCurrentState)
-    },
-    // player is ready
-    playerReadied(player) {
-      // console.log('example 01: the player is readied', player)
-    }
-  }
-}
-</script>
-
-<style lang="stylus" socped>
-.video-js
-  overflow-x hidden
-  .vjs-big-play-button
-    position absolute
-    left 50%
-    top 50%
-    transform translate(-50%, -50%)
-    height 2em
-    width 2em
-    line-height 2em
-    border-radius 1em
-.vjs-paused .vjs-big-play-button,
-.vjs-paused.vjs-has-started .vjs-big-play-button {
-    display: block;
-}
-.video-js .vjs-time-control{display:block;}
-.video-js .vjs-remaining-time{ display: none; }
 </style>

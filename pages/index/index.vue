@@ -62,10 +62,11 @@
             |美图文化拥有专业的航摄能力，全方位视频拍摄及影视制作，为我们的客户提供优质的视频作品
 
           .content-box
-            .content-box-item(v-for="video in videosArr")
+            .content-box-item(v-for="video, index in videosArr")
               .content-box-item-video
                 .content-box-item-video-bg
-                video-player(:src="video && video.video" :poster="video.cover")
+                video-player2(v-if="index %2 === 0" :src="video && video.video" :poster="video.cover")
+                video-player(v-else :src="video && video.video" :poster="video.cover")
               .content-box-item-info
                 .content-title
                   .content-title-title {{video.title}}
@@ -73,17 +74,7 @@
                   |{{video.desc}}
                   br
                   .button.is-link.is-secondary.is-plain.round(@click="moreVideoClick(video)") more...
-            .content-box-item
-              .content-box-item-video
-                .content-box-item-video-bg
-                video-player(src="http://meitu.awoo.co/1565232338540918e1ce3a8d0a114926fd756e5ae0af0.mp4")
-              .content-box-item-info
-                .content-title
-                  .content-title-title 测试
-                  br
-                  |测试测试测试
-                  br
-                  .button.is-link.is-secondary.is-plain.round(@click="moreVideoClick(video)") more...
+            
         .home-main-content-footer
           .content-title
             |内容策划与生产
@@ -116,6 +107,8 @@
 
 <script>
 import videoPlayer from '~/components/video'
+// import { video1 as videoPlayer } from '~/components/video'
+import { video2 as videoPlayer2 } from '~/components/video'
 import articleCard from '~/components/article-card'
 import { qiniuDomain, postfix } from '~/config/qiniu'
 
@@ -131,6 +124,7 @@ const CONTENT_HEAD_HEIGHT = CONTENT_HEAD_WIDTH / RADIO
 export default {
   components: {
     videoPlayer,
+    videoPlayer2,
     articleCard,
   },
   async asyncData() {
@@ -490,6 +484,7 @@ export default {
               border-radius 5px
               background-color #fff
               font-size $font-size-small-s
+              cursor pointer
               &:not(:last-child)
                 margin-right 2%
               .cover
