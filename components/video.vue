@@ -4,7 +4,7 @@
     ref="video" 
     preload="true"
     :src="formatSrc" 
-    :poster="formatSrc + videoCover"
+    :poster="formatPoster"
     @click="video.pause()"
     @mouseenter="mouseEnter"
     )
@@ -38,6 +38,7 @@ export default {
       type: String,
       default: '1555895161705wewillrockyou%E6%B3%95%E5%9B%BD%E4%BE%9D%E4%BA%91%E7%9F%BF%E6%B3%89%E6%B0%B4%E5%B9%BF%E5%91%8A_%E6%A0%87%E6%B8%85.mp4'
     },
+    poster: String,
     width: {
       type: [String, Number],
       default: 300,
@@ -54,7 +55,6 @@ export default {
   data() {
     return {
       qiniuDomain,
-      videoCover,
 
       playing: false,
       duration: 0,
@@ -71,11 +71,19 @@ export default {
       const isFull = reg.test(this.src)
       return isFull ? this.src : qiniuDomain + this.src
     },
+    formatPoster() {
+      if (!this.poster) return this.formatSrc + videoCover
+
+      const reg = /^http/
+      const isFull = reg.test(this.poster)
+      return isFull ? this.poster : qiniuDomain + this.poster
+    },
   },
   mounted() {
     this.video = this.$refs.video
     this.watchVideo()
     this.mouse = {}
+    console.log('poster', this.poster)
   },
   methods: {
     mouseEnter() {

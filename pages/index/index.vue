@@ -65,12 +65,23 @@
             .content-box-item(v-for="video in videosArr")
               .content-box-item-video
                 .content-box-item-video-bg
-                video-player(:src="video && video.video")
+                video-player(:src="video && video.video" :poster="video.cover")
               .content-box-item-info
                 .content-title
                   .content-title-title {{video.title}}
                   br
                   |{{video.desc}}
+                  br
+                  .button.is-link.is-secondary.is-plain.round(@click="moreVideoClick(video)") more...
+            .content-box-item
+              .content-box-item-video
+                .content-box-item-video-bg
+                video-player(src="http://meitu.awoo.co/1565232338540918e1ce3a8d0a114926fd756e5ae0af0.mp4")
+              .content-box-item-info
+                .content-title
+                  .content-title-title 测试
+                  br
+                  |测试测试测试
                   br
                   .button.is-link.is-secondary.is-plain.round(@click="moreVideoClick(video)") more...
         .home-main-content-footer
@@ -97,7 +108,7 @@
                 .cover: .background(:style='{backgroundImage: `url(${qiniuDomain + item.img + postfix})`}')
                 .title {{item.title}}
                 pre
-                  |{{item.desc}}用专业的态度和技术用专业的态度和技术用专业的态度和技术
+                  |{{item.desc}}
 
 
 
@@ -186,7 +197,6 @@ export default {
     },
     imagesTops() {
       const imagesTops = this._normalizeArticles('isImageTop')
-      console.log('imagesTops', imagesTops)
       // return imagesTops.length >= 3 ? imagesTops : imagesTops.concat(this.images).splice(0, 3)
       return imagesTops.concat(this.images).splice(0, 3)
     },
