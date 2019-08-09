@@ -65,8 +65,8 @@
             .content-box-item(v-for="video, index in videosArr")
               .content-box-item-video
                 .content-box-item-video-bg
-                video-player2(v-if="index %2 === 0" :src="video && video.video" :poster="video.cover")
-                video-player(v-else :src="video && video.video" :poster="video.cover")
+                video-player(v-if="index %2 === 0" :src="video && video.video" :poster="video.cover")
+                video-player2(v-else :src="video && video.video" :poster="video.cover")
               .content-box-item-info
                 .content-title
                   .content-title-title {{video.title}}
